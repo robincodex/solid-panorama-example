@@ -1,0 +1,43 @@
+{
+    "name": "solid-panorama-example",
+    "version": "0.0.1",
+    "description": "Solid.js example in Dota2 Panorama",
+    "main": "index.js",
+    "author": "RobinCode",
+    "license": "MIT",
+    "scripts": {
+        "start": "ts-node -r ./build-write-file.ts build.ts",
+        "build": "rollup -c"
+    },
+    "dependencies": {
+        "@babel/core": "^7.19.6",
+        "@babel/plugin-transform-typescript": "^7.20.0",
+        "@babel/preset-env": "^7.19.4",
+        "@babel/preset-typescript": "^7.18.6",
+        "@moddota/panorama-types": "^1.21.0",
+        "@rollup/plugin-alias": "^4.0.2",
+        "@rollup/plugin-babel": "^6.0.2",
+        "@rollup/plugin-commonjs": "^23.0.2",
+        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-replace": "^5.0.1",
+        "@rollup/plugin-typescript": "^9.0.2",
+        "@rollup/plugin-url": "^8.0.1",
+        "@solid-panorama/runtime": "^0.1.1",
+        "@types/babel__core": "^7.1.19",
+        "@types/fs-extra": "^9.0.13",
+        "@types/glob": "^8.0.0",
+        "@types/node": "^18.11.7",
+        "babel-preset-solid": "^1.6.1",
+        "chalk": "4.1.2",
+        "chokidar": "^3.5.3",
+        "dota2-panorama-xml-static-element": "^0.0.4",
+        "fs-extra": "^10.1.0",
+        "glob": "^8.0.3",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^3.2.3",
+        "sass": "^1.55.0",
+        "solid-js": "^1.6.1",
+        "ts-node": "^10.9.1",
+        "typescript": "~4.8.4"
+    }
+}

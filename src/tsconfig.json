@@ -1,0 +1,23 @@
+{
+    "include": ["**/*.ts", "**/*.tsx"],
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "removeComments": true,
+        "inlineSourceMap": true,
+        "moduleResolution": "Node",
+        "esModuleInterop": true,
+        "strict": true,
+        "target": "ES2017",
+        "types": ["@moddota/panorama-types"],
+        "lib": ["ES2017"],
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "paths": {
+            "@common/*": ["./common/*"]
+        }
+    }
+}
