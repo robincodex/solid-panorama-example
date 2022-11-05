@@ -10,6 +10,7 @@ import chalk from 'chalk';
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
+import compatiblePanorama from './plugins/compatible-panorama';
 
 const cli_prefix = `[${chalk.magenta('Panorama')}]`;
 
@@ -31,7 +32,7 @@ export default function GetRollupWatchOptions(rootPath: string) {
         input: path.join(rootPath, `./app.tsx`),
         output: {
             sourcemap: false,
-            dir: 'dist',
+            dir: 'addon/content/solid-example/panorama/scripts/custom_game',
             format: 'cjs',
             entryFileNames: `[name].js`,
             chunkFileNames: `[name].js`,
@@ -42,7 +43,7 @@ export default function GetRollupWatchOptions(rootPath: string) {
                     return 'common';
                 }
                 if (id.search(/[\\/]node_modules[\\/]/) >= 0) {
-                    return 'common';
+                    return 'libs';
                 }
             }
         },
@@ -70,7 +71,8 @@ export default function GetRollupWatchOptions(rootPath: string) {
             //     tsconfig: path.join(rootPath, `tsconfig.json`)
             // }),
             commonjs(),
-            nodeResolve()
+            nodeResolve(),
+            compatiblePanorama()
         ]
     };
 

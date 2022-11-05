@@ -5,9 +5,9 @@ module.exports = {
         '@babel/preset-env',
         '@babel/preset-typescript',
         [
-            'babel-preset-solid',
+            'babel-preset-solid-panorama',
             {
-                moduleName: '@solid-panorama/runtime',
+                moduleName: 'solid-panorama-runtime',
                 generate: 'universal'
             }
         ]

@@ -1,0 +1,12 @@
+<root>
+    <styles>
+        <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+    </styles>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/panorama-polyfill.js" />
+        <include src="file://{resources}/scripts/custom_game/app.js" />
+    </scripts>
+    <Panel hittest="false" >
+        <Panel id="app" />
+    </Panel>
+</root>

@@ -17,4 +17,4 @@ dist
 *.vcss_c
 *.vxml_c
 *.bin
-panorama_debugger.cfg
+*.cfg

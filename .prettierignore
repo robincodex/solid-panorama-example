@@ -1,6 +1,4 @@
 build
 coverage
-**/dist
-**/vue_example
 .github
-package.json
+node_modules
