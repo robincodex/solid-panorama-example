@@ -6,7 +6,7 @@
     "author": "RobinCode",
     "license": "MIT",
     "scripts": {
-        "start": "ts-node -r ./build-write-file.ts build.ts",
+        "start": "ts-node -r ./scripts/build-write-file.ts ./scripts/build.ts",
         "build": "rollup -c"
     },
     "dependencies": {
@@ -14,6 +14,7 @@
         "@babel/plugin-transform-typescript": "^7.20.0",
         "@babel/preset-env": "^7.19.4",
         "@babel/preset-typescript": "^7.18.6",
+        "@babel/types": "^7.20.2",
         "@moddota/panorama-types": "^1.21.0",
         "@rollup/plugin-alias": "^4.0.2",
         "@rollup/plugin-babel": "^6.0.2",
@@ -23,13 +24,16 @@
         "@rollup/plugin-typescript": "^9.0.2",
         "@rollup/plugin-url": "^8.0.1",
         "@types/babel__core": "^7.1.19",
+        "@types/cli-color": "^2.0.2",
         "@types/fs-extra": "^9.0.13",
         "@types/glob": "^8.0.0",
         "@types/node": "^18.11.7",
         "babel-plugin-jsx-panorama-expressions": "^0.1.2",
+        "babel-plugin-macros": "^3.1.0",
+        "babel-plugin-panorama-all-in-jsx": "^0.1.3",
         "babel-preset-solid-panorama": "^0.1.3",
-        "chalk": "4.1.2",
         "chokidar": "^3.5.3",
+        "cli-color": "^2.0.3",
         "dota2-panorama-xml-static-element": "^0.0.4",
         "fs-extra": "^10.1.0",
         "glob": "^8.0.3",
@@ -37,7 +41,7 @@
         "rollup": "^3.2.3",
         "sass": "^1.55.0",
         "solid-js": "^1.6.1",
-        "solid-panorama-runtime": "^0.1.6",
+        "solid-panorama-runtime": "^0.1.8",
         "ts-node": "^10.9.1",
         "typescript": "~4.8.4"
     }

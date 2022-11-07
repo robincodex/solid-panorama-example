@@ -10,26 +10,24 @@ import chalk from 'chalk';
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
-import compatiblePanorama from './plugins/compatible-panorama';
-
-const cli_prefix = `[${chalk.magenta('Panorama')}]`;
-
-function isDir(p: string) {
-    return statSync(p).isDirectory();
-}
+import compatiblePanorama from '../plugins/compatible-panorama';
+import { isDir, Panorama } from './utils';
+import { rollupPluginXML } from './rollup-plugin-xml';
 
 export default function GetRollupWatchOptions(rootPath: string) {
     // 入口文件夹
-    const Dirs = readdirSync(rootPath).filter(
+    const entryFiles = readdirSync(rootPath).filter(
         v =>
+            v !== 'common' &&
             isDir(path.join(rootPath, v)) &&
-            v !== 'global' &&
-            existsSync(path.join(rootPath, `${v}/${v}.ts`))
+            existsSync(path.join(rootPath, `${v}/${v}.tsx`))
     );
-    console.log(Dirs.map(v => cli_prefix + ' 👁️  ' + v).join('\n'));
+    console.log(entryFiles.map(v => Panorama + ' 👁️  ' + v).join('\n'));
 
     const options: RollupWatchOptions = {
-        input: path.join(rootPath, `./app.tsx`),
+        input: entryFiles.map(v => {
+            return path.join(rootPath, `./${v}/${v}.tsx`);
+        }),
         output: {
             sourcemap: false,
             dir: 'addon/content/solid-example/panorama/scripts/custom_game',
@@ -52,7 +50,22 @@ export default function GetRollupWatchOptions(rootPath: string) {
                 comments: false,
                 exclude: 'node_modules/**',
                 extensions: ['.js', '.ts', '.tsx'],
-                babelHelpers: 'bundled'
+                babelHelpers: 'bundled',
+                presets: [
+                    ['@babel/preset-env', { targets: { node: '8.2' } }],
+                    '@babel/preset-typescript',
+                    [
+                        'babel-preset-solid-panorama',
+                        {
+                            moduleName: 'solid-panorama-runtime',
+                            generate: 'universal'
+                        }
+                    ]
+                ],
+                plugins: [
+                    '@babel/plugin-transform-typescript',
+                    'babel-plugin-macros'
+                ]
             }),
             alias({
                 entries: [
@@ -72,7 +85,13 @@ export default function GetRollupWatchOptions(rootPath: string) {
             // }),
             commonjs(),
             nodeResolve(),
-            compatiblePanorama()
+            compatiblePanorama(),
+            rollupPluginXML({
+                dir: join(
+                    __dirname,
+                    '../addon/content/solid-example/panorama/layout/custom_game'
+                )
+            })
         ]
     };
 

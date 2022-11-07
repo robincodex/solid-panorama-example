@@ -1,11 +1,10 @@
 {
-    "include": ["./*.ts"],
+    "include": ["**/*.ts"],
     "compilerOptions": {
         "rootDir": ".",
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "allowJs": true,
-        "inlineSourceMap": true,
         "moduleResolution": "Node",
         "esModuleInterop": true,
         "strict": true,

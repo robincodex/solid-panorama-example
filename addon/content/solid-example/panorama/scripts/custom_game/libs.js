@@ -40,33 +40,9 @@ function createRoot(fn, detachedOwner) {
     Owner = owner;
   }
 }
-function createSignal(value, options) {
-  options = options ? Object.assign({}, signalOptions, options) : signalOptions;
-  const s = {
-    value,
-    observers: null,
-    observerSlots: null,
-    comparator: options.equals || undefined
-  };
-  const setter = value => {
-    if (typeof value === "function") {
-      value = value(s.value);
-    }
-    return writeSignal(s, value);
-  };
-  return [readSignal.bind(s), setter];
-}
 function createRenderEffect(fn, value, options) {
   const c = createComputation(fn, value, false, STALE);
   updateComputation(c);
-}
-function createEffect(fn, value, options) {
-  runEffects = runUserEffects;
-  const c = createComputation(fn, value, false, STALE),
-        s = SuspenseContext && lookup(Owner, SuspenseContext.id);
-  if (s) c.suspense = s;
-  c.user = true;
-  Effects ? Effects.push(c) : updateComputation(c);
 }
 function createMemo(fn, value, options) {
   options = options ? Object.assign({}, signalOptions, options) : signalOptions;
@@ -85,10 +61,6 @@ function untrack(fn) {
   Listener = listener;
   return result;
 }
-function onMount(fn) {
-  createEffect(() => untrack(fn));
-}
-let SuspenseContext;
 function readSignal() {
   const runningTransition = Transition ;
   if (this.sources && (this.state || runningTransition )) {
@@ -240,15 +212,6 @@ function completeUpdates(wait) {
 function runQueue(queue) {
   for (let i = 0; i < queue.length; i++) runTop(queue[i]);
 }
-function runUserEffects(queue) {
-  let i,
-      userLength = 0;
-  for (i = 0; i < queue.length; i++) {
-    const e = queue[i];
-    if (!e.user) runTop(e);else queue[userLength++] = e;
-  }
-  for (i = 0; i < userLength; i++) runTop(queue[i]);
-}
 function lookUpstream(node, ignore) {
   const runningTransition = Transition ;
   node.state = 0;
@@ -308,9 +271,6 @@ function castError(err) {
 function handleError(err) {
   err = castError(err);
   throw err;
-}
-function lookup(owner, key) {
-  return owner ? owner.context && owner.context[key] !== undefined ? owner.context[key] : lookup(owner.owner, key) : undefined;
 }
 function createComponent$1(Comp, props) {
   return untrack(() => Comp(props || {}));
@@ -627,33 +587,6 @@ function createRenderer(options) {
   return renderer;
 }
 
-/******************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
 const StyleKeyAutoConvertToPixelList = [
     'x',
     'y',
@@ -686,7 +619,7 @@ const { render: _render, effect, memo, createComponent, createElement, createTex
 use } = createRenderer({
     // @ts-ignore
     createElement(type, props, parent) {
-        const { id, snippet, vars, dialogVariables, text } = props, _props = __rest(props, ["id", "snippet", "vars", "dialogVariables", "text"]);
+        const { id, snippet, vars, dialogVariables, text, ..._props } = props;
         const el = $.CreatePanelWithProperties(type, parent || $.GetContextPanel(), id || '', _props);
         if (vars) {
             setDialogVariables(el, vars, {});
@@ -735,44 +668,6 @@ use } = createRenderer({
         }
         return node.paneltype === 'Label';
     },
-    setProperty(node, name, value, prev) {
-        if (!node || !node.IsValid()) {
-            return;
-        }
-        if (name === 'class' || name === 'className') {
-            applyClassNames(node, value, prev || '');
-        }
-        else if (name === 'classList') {
-            updateClassList(node, value);
-        }
-        else if (name === 'style') {
-            applyStyles(node, value, prev);
-        }
-        else if (name === 'vars' || name === 'dialogVariables') {
-            setDialogVariables(node, value, prev);
-        }
-        else if (name === 'inputnamespace') {
-            node.SetInputNamespace(value || '');
-        }
-        else if (name === 'draggable') {
-            node.SetDraggable(value === true);
-        }
-        else if (name === 'acceptsfocus') {
-            node.SetAcceptsFocus(value === true);
-        }
-        else if (name.startsWith('on')) {
-            setPanelEvent(node, name, value);
-        }
-        else {
-            if (hasOwn.call(node, name)) {
-                // @ts-ignore
-                node[name] = value;
-            }
-            else {
-                node.SetAttributeString(name, String(value));
-            }
-        }
-    },
     insertNode(parent, node, anchor) {
         if (!parent || !parent.IsValid() || !node || !node.IsValid()) {
             return;
@@ -820,6 +715,44 @@ use } = createRenderer({
             return;
         }
         return el;
+    },
+    setProperty(node, name, value, prev) {
+        if (!node || !node.IsValid()) {
+            return;
+        }
+        if (name === 'class' || name === 'className') {
+            applyClassNames(node, value, prev || '');
+        }
+        else if (name === 'classList') {
+            updateClassList(node, value);
+        }
+        else if (name === 'style') {
+            applyStyles(node, value, prev);
+        }
+        else if (name === 'vars' || name === 'dialogVariables') {
+            setDialogVariables(node, value, prev);
+        }
+        else if (name === 'inputnamespace') {
+            node.SetInputNamespace(value || '');
+        }
+        else if (name === 'draggable') {
+            node.SetDraggable(value === true);
+        }
+        else if (name === 'acceptsfocus') {
+            node.SetAcceptsFocus(value === true);
+        }
+        else if (name.startsWith('on')) {
+            setPanelEvent(node, name, value);
+        }
+        else {
+            if (hasOwn.call(node, name)) {
+                // @ts-ignore
+                node[name] = value;
+            }
+            else {
+                node.SetAttributeString(name, String(value));
+            }
+        }
     }
 });
 const renderPanoramaSymbol = Symbol('render');
@@ -922,13 +855,7 @@ function setDialogVariables(node, vars, prev) {
 }
 
 exports.createComponent = createComponent;
-exports.createEffect = createEffect;
 exports.createElement = createElement;
-exports.createSignal = createSignal;
 exports.createTextNode = createTextNode;
-exports.effect = effect;
-exports.insert = insert;
-exports.onMount = onMount;
 exports.render = render;
 exports.setProp = setProp;
-exports.use = use;
