@@ -1,5 +1,30 @@
 {
     "files.exclude": {
         "**/node_modules/**": true
-    }
+    },
+    "css.lint.validProperties": [
+        "wash-color",
+        "saturation",
+        "brightness",
+        "tooltip-position",
+        "horizontal-align",
+        "flow-children",
+        "opacity-mask",
+        "tooltip-body-position",
+        "pre-transform-scale2d",
+        "blur",
+        "x",
+        "y",
+        "sound",
+        "sound-out",
+        "contrast",
+        "world-blur",
+        "background-blur",
+        "opacity-brush",
+        "border-brush",
+        "background-img-opacity",
+        "ui-scale",
+        "ui-scale-x",
+        "ui-scale-y"
+    ]
 }

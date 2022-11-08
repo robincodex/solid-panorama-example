@@ -18,6 +18,14 @@
         "jsxImportSource": "solid-js",
         "paths": {
             "@common/*": ["./common/*"]
-        }
+        },
+        "plugins": [
+            {
+                "name": "typescript-styled-plugin",
+                "lint": {
+                    "validProperties": ["flow-children", "horizontal-align"]
+                }
+            }
+        ]
     }
 }
