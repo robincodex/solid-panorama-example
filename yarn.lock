@@ -1261,10 +1261,10 @@ babel-plugin-macros@^3.1.0:
     cosmiconfig "^7.0.0"
     resolve "^1.19.0"
 
-babel-plugin-panorama-all-in-jsx@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/babel-plugin-panorama-all-in-jsx/-/babel-plugin-panorama-all-in-jsx-0.1.4.tgz#8f40eeae7ac699cd0f2d8de00f3e09811120fde8"
-  integrity sha512-SDckGgcFOnnHYL7QcQ6zqcfPiiHc3mQReTzV+Pw+wh0ghuhGzE+q3+8nUuVJ5OeKQnNe8fQJjZVQPEkp91firQ==
+babel-plugin-panorama-all-in-jsx@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/babel-plugin-panorama-all-in-jsx/-/babel-plugin-panorama-all-in-jsx-0.1.5.tgz#a08694595d557db7adf604eafc8553131b5c71c1"
+  integrity sha512-uzB9O0L2ROBLo9qaQ0AVDc+m5hqgh8ZK0ZuqT8bbz+S09VVLrW3nU++D6vC6tKITTRYnpg8xoIfEW8ke1HVrag==
   dependencies:
     babel-plugin-macros "^3.1.0"
     xml-js "^1.6.11"

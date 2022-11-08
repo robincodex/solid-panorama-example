@@ -4,7 +4,7 @@ import {
     getAllCacheXML
 } from 'babel-plugin-panorama-all-in-jsx/xml.macro';
 import { basename, join } from 'node:path';
-import { ensureDir, writeFile } from 'fs-extra';
+import { writeFile } from 'fs-extra';
 
 export function rollupPluginXML(options: {
     dir: string;

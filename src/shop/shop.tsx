@@ -21,12 +21,16 @@ xml(
 
 const rootStyle = css`
     flow-children: right;
+    horizontal-align: center;
+    vertical-align: bottom;
 `;
 
 function App() {
     return (
         <Panel class={rootStyle}>
-            <CButton text="Button A" />
+            <CButton text="Button A" small />
+            <CButton text="Button B" />
+            <CButton text="Button C" large />
         </Panel>
     );
 }

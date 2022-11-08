@@ -1,6 +1,9 @@
 import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'babel-plugin-panorama-all-in-jsx/xml.macro';
+import { CButton } from '../components/Button';
+import { ButtonGroup } from '../components/ButtonGroup';
+import css from 'babel-plugin-panorama-all-in-jsx/css.macro';
 
 xml(
     <root>
@@ -17,8 +20,18 @@ xml(
     </root>
 );
 
+const rootStyle = css`
+    flow-children: right;
+    horizontal-align: center;
+    vertical-align: bottom;
+`;
+
 function App() {
-    return <Panel style={{ flowChildren: 'right' }}>Hello World!</Panel>;
+    return (
+        <Panel class={rootStyle}>
+            <ButtonGroup />
+        </Panel>
+    );
 }
 
 render(() => <App />, $('#app'));

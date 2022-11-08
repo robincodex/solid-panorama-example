@@ -12,21 +12,23 @@ import replace from '@rollup/plugin-replace';
 import compatiblePanorama from './rollup-plugin-panorama';
 import { isDir, Panorama } from './utils';
 import { rollupPluginXML } from './rollup-plugin-xml';
+import { rollupPluginScss } from './rollup-plugin-scss';
 
 export default function GetRollupWatchOptions(rootPath: string) {
     // 入口文件夹
-    const entryFiles = readdirSync(rootPath).filter(
+    const pages = readdirSync(rootPath).filter(
         v =>
             v !== 'common' &&
             isDir(path.join(rootPath, v)) &&
             existsSync(path.join(rootPath, `${v}/${v}.tsx`))
     );
-    console.log(entryFiles.map(v => Panorama + ' 👁️  ' + v).join('\n'));
+    const inputFiles = pages.map(v => {
+        return path.join(rootPath, `./${v}/${v}.tsx`);
+    });
+    console.log(pages.map(v => Panorama + ' 👁️  ' + v).join('\n'));
 
     const options: RollupWatchOptions = {
-        input: entryFiles.map(v => {
-            return path.join(rootPath, `./${v}/${v}.tsx`);
-        }),
+        input: inputFiles,
         output: {
             sourcemap: false,
             dir: 'addon/content/solid-example/panorama/scripts/custom_game',
@@ -89,6 +91,13 @@ export default function GetRollupWatchOptions(rootPath: string) {
                 dir: join(
                     __dirname,
                     '../addon/content/solid-example/panorama/layout/custom_game'
+                )
+            }),
+            rollupPluginScss({
+                inputFiles,
+                dir: join(
+                    __dirname,
+                    '../addon/content/solid-example/panorama/styles/custom_game'
                 )
             })
         ]
