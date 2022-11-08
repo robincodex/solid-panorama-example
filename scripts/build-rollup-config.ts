@@ -6,11 +6,10 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path, { join } from 'node:path';
 import babel from '@rollup/plugin-babel';
 import { RollupWatchOptions } from 'rollup';
-import chalk from 'chalk';
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import alias from '@rollup/plugin-alias';
 import replace from '@rollup/plugin-replace';
-import compatiblePanorama from '../plugins/compatible-panorama';
+import compatiblePanorama from './rollup-plugin-panorama';
 import { isDir, Panorama } from './utils';
 import { rollupPluginXML } from './rollup-plugin-xml';
 
@@ -84,7 +83,7 @@ export default function GetRollupWatchOptions(rootPath: string) {
             //     tsconfig: path.join(rootPath, `tsconfig.json`)
             // }),
             commonjs(),
-            nodeResolve(),
+            nodeResolve({ extensions: ['.tsx', '.ts', '.js', '.jsx'] }),
             compatiblePanorama(),
             rollupPluginXML({
                 dir: join(

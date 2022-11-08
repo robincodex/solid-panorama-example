@@ -2,6 +2,7 @@ import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'babel-plugin-panorama-all-in-jsx/xml.macro';
 import css from 'babel-plugin-panorama-all-in-jsx/css.macro';
+import { CButton } from '../components/Button';
 
 xml(
     <root>
@@ -23,7 +24,11 @@ const rootStyle = css`
 `;
 
 function App() {
-    return <Panel class={rootStyle}>Hello World!</Panel>;
+    return (
+        <Panel class={rootStyle}>
+            <CButton text="Button A" />
+        </Panel>
+    );
 }
 
 render(() => <App />, $('#app'));

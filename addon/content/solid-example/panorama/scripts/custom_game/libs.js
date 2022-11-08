@@ -857,5 +857,6 @@ function setDialogVariables(node, vars, prev) {
 exports.createComponent = createComponent;
 exports.createElement = createElement;
 exports.createTextNode = createTextNode;
+exports.insert = insert;
 exports.render = render;
 exports.setProp = setProp;
