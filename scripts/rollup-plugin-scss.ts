@@ -1,9 +1,11 @@
 import { Plugin, PluginContext } from 'rollup';
-import { getAllCacheScss } from 'babel-plugin-panorama-all-in-jsx/css.macro';
+import { getAllCacheCSS } from 'solid-panorama-all-in-jsx/css.macro';
 import { basename, dirname, join } from 'node:path';
 import { writeFile } from 'fs-extra';
 import { compileStringAsync } from 'sass';
 import { pathToFileURL } from 'node:url';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
 export function rollupPluginScss(options: {
     inputFiles: string[];
@@ -35,16 +37,25 @@ export function rollupPluginScss(options: {
     return {
         name: 'rollup-plugin-scss',
         async writeBundle() {
-            const cache = getAllCacheScss();
+            const cache = getAllCacheCSS();
             for (const file of options.inputFiles) {
+                let scssFileCode = '';
+                const scssFile = file.replace(/\.tsx?$/, '.scss');
+                if (existsSync(scssFile)) {
+                    scssFileCode = await readFile(scssFile, 'utf8');
+                }
+
                 const code = findAndMergeScss(this, file, cache).trim();
                 if (!code) {
                     continue;
                 }
 
-                const result = await compileStringAsync(code, {
-                    url: pathToFileURL(dirname(file))
-                });
+                const result = await compileStringAsync(
+                    scssFileCode + '\n' + code,
+                    {
+                        url: pathToFileURL(dirname(file))
+                    }
+                );
 
                 let outPath = '';
                 if (options.resolvePath) {

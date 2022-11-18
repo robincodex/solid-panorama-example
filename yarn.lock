@@ -1261,14 +1261,6 @@ babel-plugin-macros@^3.1.0:
     cosmiconfig "^7.0.0"
     resolve "^1.19.0"
 
-babel-plugin-panorama-all-in-jsx@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/babel-plugin-panorama-all-in-jsx/-/babel-plugin-panorama-all-in-jsx-0.1.5.tgz#a08694595d557db7adf604eafc8553131b5c71c1"
-  integrity sha512-uzB9O0L2ROBLo9qaQ0AVDc+m5hqgh8ZK0ZuqT8bbz+S09VVLrW3nU++D6vC6tKITTRYnpg8xoIfEW8ke1HVrag==
-  dependencies:
-    babel-plugin-macros "^3.1.0"
-    xml-js "^1.6.11"
-
 babel-plugin-polyfill-corejs2@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.3.3.tgz#5d1bd3836d0a19e1b84bbf2d9640ccb6f951c122"
@@ -2406,6 +2398,14 @@ solid-js@^1.6.1:
   integrity sha512-i8OmR419Hr0918Or6sm1ET/cgmxTtAB7Bdz/UwhZ7G2THixrvVSO3jd+C7YqMKKfVwmf8PJ2gUSbKE8NKv28GA==
   dependencies:
     csstype "^3.1.0"
+
+solid-panorama-all-in-jsx@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/solid-panorama-all-in-jsx/-/solid-panorama-all-in-jsx-0.1.7.tgz#e54d341f927cfdf5dfe40e956f9d83e1a7f8e8d0"
+  integrity sha512-SIsm0EIhhLBaHo/Kpcmjh/AdCHLm8sEgn4V/IIRwktvyWYZbOAVbLfbvjEB9yahEG3+8Ku/0aB16qthyz6PZ7A==
+  dependencies:
+    babel-plugin-macros "^3.1.0"
+    xml-js "^1.6.11"
 
 solid-panorama-runtime@^0.1.8:
   version "0.1.8"

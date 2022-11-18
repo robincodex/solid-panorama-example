@@ -1,4 +1,4 @@
-import css from 'babel-plugin-panorama-all-in-jsx/css.macro';
+import css from 'solid-panorama-all-in-jsx/css.macro';
 import { CButton } from './Button';
 
 export function ButtonGroup() {

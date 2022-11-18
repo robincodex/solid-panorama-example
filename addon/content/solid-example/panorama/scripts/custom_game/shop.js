@@ -3,7 +3,7 @@
 var libs = require('./libs.js');
 var Button = require('./Button.js');
 
-const rootStyle = "styled-e2b76839";
+const rootStyle = "styled-9aa8fd3e";
 function App() {
   return (() => {
     const _el$ = libs.createElement("Panel", {

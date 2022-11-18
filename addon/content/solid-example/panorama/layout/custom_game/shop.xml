@@ -6,7 +6,7 @@
   <scripts>
     <include src="file://{resources}/scripts/custom_game/shop.js"/>
   </scripts>
-  <Panel>
+  <Panel class="root">
     <Panel id="app"/>
   </Panel>
 </root>

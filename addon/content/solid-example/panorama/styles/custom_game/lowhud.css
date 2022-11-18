@@ -1,40 +1,40 @@
-.styled-f7814e47 {
+.styled-64b8d417 {
   background-color: gradient(linear, 0% 100%, 0% 0%, from(#111111), to(#333333));
   box-shadow: #000000 0px 0px 4px;
   padding: 10px 30px;
 }
-.styled-f7814e47 Image {
+.styled-64b8d417 Image {
   width: 20px;
   height: 20px;
 }
-.styled-f7814e47 Label {
+.styled-64b8d417 Label {
   color: #ffffff;
   font-size: 16px;
   vertical-align: middle;
 }
-.styled-f7814e47.small {
+.styled-64b8d417.small {
   padding: 5px 15px;
   font-size: 12px;
 }
-.styled-f7814e47.large {
+.styled-64b8d417.large {
   padding: 20px 60px;
   font-size: 24px;
 }
-.styled-f7814e47.R {
+.styled-64b8d417.R {
   background-color: gradient(linear, 0% 100%, 0% 0%, from(#712222), to(#e70000));
 }
-.styled-f7814e47.G {
+.styled-64b8d417.G {
   background-color: gradient(linear, 0% 100%, 0% 0%, from(#2f7122), to(#00e708));
 }
-.styled-f7814e47.B {
+.styled-64b8d417.B {
   background-color: gradient(linear, 0% 100%, 0% 0%, from(#224471), to(#0083e7));
 }
 
-.styled-c042c3aa {
+.styled-8c947fd3 {
   flow-children: right;
 }
 
-.styled-6e99e253 {
+.styled-1ed2f423 {
   flow-children: right;
   horizontal-align: center;
   vertical-align: bottom;

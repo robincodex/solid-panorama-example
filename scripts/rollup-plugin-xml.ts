@@ -1,8 +1,5 @@
 import { Plugin } from 'rollup';
-import {
-    formatXML,
-    getAllCacheXML
-} from 'babel-plugin-panorama-all-in-jsx/xml.macro';
+import { formatXML, getAllCacheXML } from 'solid-panorama-all-in-jsx/xml.macro';
 import { basename, join } from 'node:path';
 import { writeFile } from 'fs-extra';
 

@@ -1,9 +1,9 @@
 import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
-import xml from 'babel-plugin-panorama-all-in-jsx/xml.macro';
+import xml from 'solid-panorama-all-in-jsx/xml.macro';
 import { CButton } from '../components/Button';
 import { ButtonGroup } from '../components/ButtonGroup';
-import css from 'babel-plugin-panorama-all-in-jsx/css.macro';
+import css from 'solid-panorama-all-in-jsx/css.macro';
 
 xml(
     <root>

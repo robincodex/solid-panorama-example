@@ -1,7 +1,7 @@
 import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
-import xml from 'babel-plugin-panorama-all-in-jsx/xml.macro';
-import css from 'babel-plugin-panorama-all-in-jsx/css.macro';
+import xml from 'solid-panorama-all-in-jsx/xml.macro';
+import css from 'solid-panorama-all-in-jsx/css.macro';
 import { CButton } from '../components/Button';
 
 xml(
@@ -13,7 +13,7 @@ xml(
         <scripts>
             <include src="file://{resources}/scripts/custom_game/shop.js" />
         </scripts>
-        <Panel>
+        <Panel class="root">
             <Panel id="app" />
         </Panel>
     </root>

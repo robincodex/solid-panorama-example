@@ -4,7 +4,7 @@ var libs = require('./libs.js');
 var Button = require('./Button.js');
 
 function ButtonGroup() {
-  const style = "styled-c042c3aa";
+  const style = "styled-8c947fd3";
   return (() => {
     const _el$ = libs.createElement("Panel", {
       "class": style
@@ -23,7 +23,7 @@ function ButtonGroup() {
   })();
 }
 
-const rootStyle = "styled-6e99e253";
+const rootStyle = "styled-1ed2f423";
 function App() {
   return (() => {
     const _el$ = libs.createElement("Panel", {
