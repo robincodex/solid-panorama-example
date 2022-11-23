@@ -36,6 +36,7 @@ function StartRollup(): void {
                 rootPath + '/',
                 ''
             );
+            console.log(evt);
             console.log(
                 Panorama +
                     ' Build Error: ' +

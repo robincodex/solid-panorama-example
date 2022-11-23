@@ -1,27 +1,33 @@
 import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'solid-panorama-all-in-jsx/xml.macro';
-import { CButton } from '../components/Button';
-import { ButtonGroup } from '../components/ButtonGroup';
 import css from 'solid-panorama-all-in-jsx/css.macro';
+import { DotaAbilities } from '../components/Ability';
 
 xml(
     <root>
         <styles>
             <include src="s2r://panorama/styles/dotastyles.vcss_c" />
-            <include src="file://{resources}/styles/custom_game/hud_main.css" />
+            <include src="file://{resources}/styles/custom_game/lowhud.css" />
         </styles>
         <scripts>
-            <include src="file://{resources}/scripts/custom_game/hud_main.js" />
+            <include src="file://{resources}/scripts/custom_game/lowhud.js" />
         </scripts>
-        <Panel>
-            <Panel id="app" />
+        <Panel class="root" hittest={false}>
+            <Panel id="app" class="root" />
         </Panel>
     </root>
 );
 
+css`
+    .root {
+        width: 100%;
+        height: 100%;
+    }
+`;
+
 const rootStyle = css`
-    flow-children: right;
+    flow-children: down;
     horizontal-align: center;
     vertical-align: bottom;
 `;
@@ -29,7 +35,7 @@ const rootStyle = css`
 function App() {
     return (
         <Panel class={rootStyle}>
-            <ButtonGroup />
+            <DotaAbilities />
         </Panel>
     );
 }

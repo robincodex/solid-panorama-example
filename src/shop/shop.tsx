@@ -13,7 +13,7 @@ xml(
         <scripts>
             <include src="file://{resources}/scripts/custom_game/shop.js" />
         </scripts>
-        <Panel class="root">
+        <Panel class="root" hittest={false}>
             <Panel id="app" />
         </Panel>
     </root>

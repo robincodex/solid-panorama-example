@@ -1,12 +1,12 @@
 <root>
   <styles>
     <include src="s2r://panorama/styles/dotastyles.vcss_c"/>
-    <include src="file://{resources}/styles/custom_game/hud_main.css"/>
+    <include src="file://{resources}/styles/custom_game/lowhud.css"/>
   </styles>
   <scripts>
-    <include src="file://{resources}/scripts/custom_game/hud_main.js"/>
+    <include src="file://{resources}/scripts/custom_game/lowhud.js"/>
   </scripts>
-  <Panel>
-    <Panel id="app"/>
+  <Panel class="root" hittest="false">
+    <Panel id="app" class="root"/>
   </Panel>
 </root>
