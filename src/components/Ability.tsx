@@ -2,7 +2,6 @@ import { createEffect, createSignal, For } from 'solid-js';
 import css from 'solid-panorama-all-in-jsx/css.macro';
 import { useGameEvent } from 'solid-panorama-runtime';
 import { CButton } from './Button';
-import { useTimer } from './utils';
 import difference from 'lodash/difference';
 
 const AbilityStyle = css`
@@ -81,11 +80,6 @@ export function DotaAbilities() {
 
     createEffect(() => {
         updateAbilities();
-    }, unit());
-
-    useTimer(() => {
-        updateAbilities();
-        return 0.2;
     }, unit());
 
     return (

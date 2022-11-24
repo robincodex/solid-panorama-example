@@ -41,7 +41,11 @@ export default function GetRollupWatchOptions(rootPath: string) {
                 if (id.search(/[\\/]common[\\/]/) >= 0) {
                     return 'common';
                 }
-                if (id.search(/[\\/]node_modules[\\/]/) >= 0) {
+                if (
+                    id === 'commonjsHelpers.js' ||
+                    id === 'rollupPluginBabelHelpers.js' ||
+                    id.search(/[\\/]node_modules[\\/]/) >= 0
+                ) {
                     return 'libs';
                 }
             }

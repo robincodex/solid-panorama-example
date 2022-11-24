@@ -11,6 +11,7 @@ xml(
             <include src="file://{resources}/styles/custom_game/lowhud.css" />
         </styles>
         <scripts>
+            <include src="file://{resources}/scripts/custom_game/panorama-polyfill.js" />
             <include src="file://{resources}/scripts/custom_game/lowhud.js" />
         </scripts>
         <Panel class="root" hittest={false}>
@@ -33,8 +34,14 @@ const rootStyle = css`
 `;
 
 function App() {
+    let root: Panel | undefined;
+
+    onMount(() => {
+        console.log('Created lowhud', rootStyle);
+    });
+
     return (
-        <Panel class={rootStyle}>
+        <Panel ref={root} class={rootStyle}>
             <DotaAbilities />
         </Panel>
     );

@@ -8,7 +8,7 @@ import {
     writeFileSync
 } from 'fs';
 import * as rollup from 'rollup';
-import path from 'path';
+import path, { join } from 'path';
 import {
     PreloadTemplates,
     RenderPanoramaXML,
@@ -19,6 +19,7 @@ import { readFile } from 'fs/promises';
 import GetRollupWatchOptions from './build-rollup-config';
 import { fileColor, normalizedPath, Panorama } from './utils';
 import color from 'cli-color';
+import { bundlePanoramaPolyfill } from 'solid-panorama-polyfill';
 
 const rootPath = normalizedPath(path.join(__dirname, '../src'));
 
@@ -59,6 +60,12 @@ function StartRollup(): void {
  * 任务入口
  */
 export default async function TaskPUI() {
+    await bundlePanoramaPolyfill({
+        output: './addon/content/solid-example/panorama/scripts/custom_game/panorama-polyfill.js',
+        using: { console: true, timers: true },
+        merges: [join(__dirname, 'custom-polyfill.js')]
+    });
+
     StartRollup();
 }
 

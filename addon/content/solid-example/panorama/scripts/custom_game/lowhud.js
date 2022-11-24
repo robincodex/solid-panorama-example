@@ -2,34 +2,6 @@
 
 var libs = require('./libs.js');
 
-function useTimer(...args) {
-  let firstDelay = 0;
-  let callback;
-  if (args.length === 2) {
-    firstDelay = args[0];
-    callback = args[1];
-    args[2];
-  } else {
-    callback = args[0];
-    args[1];
-  }
-  libs.createEffect(() => {
-    let t;
-    const running = () => {
-      const next = callback();
-      if (next) {
-        t = $.Schedule(next, running);
-      }
-    };
-    t = $.Schedule(firstDelay, running);
-    return () => {
-      try {
-        $.CancelScheduled(t);
-      } catch (e) {}
-    };
-  });
-}
-
 const AbilityStyle = "styled-50952f12";
 function Ability(props) {
   return (() => {
@@ -85,10 +57,6 @@ function DotaAbilities() {
   libs.createEffect(() => {
     updateAbilities();
   }, unit());
-  useTimer(() => {
-    updateAbilities();
-    return 0.2;
-  }, unit());
   return (() => {
     const _el$3 = libs.createElement("Panel", {
       "class": DotaAbilitiesStyle
@@ -108,10 +76,16 @@ function DotaAbilities() {
 
 const rootStyle = "styled-1ed2f423";
 function App() {
+  let root;
+  libs.onMount(() => {
+    console.log('Created lowhud', rootStyle);
+  });
   return (() => {
     const _el$ = libs.createElement("Panel", {
       "class": rootStyle
     }, null);
+    const _ref$ = root;
+    typeof _ref$ === "function" ? libs.use(_ref$, _el$) : root = _el$;
     libs.setProp(_el$, "class", rootStyle);
     libs.insert(_el$, libs.createComponent(DotaAbilities, {}));
     return _el$;

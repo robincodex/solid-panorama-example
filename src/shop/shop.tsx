@@ -11,6 +11,7 @@ xml(
             <include src="file://{resources}/styles/custom_game/shop.css" />
         </styles>
         <scripts>
+            <include src="file://{resources}/scripts/custom_game/panorama-polyfill.js" />
             <include src="file://{resources}/scripts/custom_game/shop.js" />
         </scripts>
         <Panel class="root" hittest={false}>

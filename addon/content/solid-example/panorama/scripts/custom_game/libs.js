@@ -90,9 +90,7 @@ function createRenderEffect(fn, value, options) {
 }
 function createEffect(fn, value, options) {
   runEffects = runUserEffects;
-  const c = createComputation(fn, value, false, STALE),
-        s = SuspenseContext && lookup(Owner, SuspenseContext.id);
-  if (s) c.suspense = s;
+  const c = createComputation(fn, value, false, STALE);
   c.user = true;
   Effects ? Effects.push(c) : updateComputation(c);
 }
@@ -114,11 +112,13 @@ function untrack(fn) {
     Listener = listener;
   }
 }
+function onMount(fn) {
+  createEffect(() => untrack(fn));
+}
 function onCleanup(fn) {
   if (Owner === null) ;else if (Owner.cleanups === null) Owner.cleanups = [fn];else Owner.cleanups.push(fn);
   return fn;
 }
-let SuspenseContext;
 function readSignal() {
   const runningTransition = Transition ;
   if (this.sources && (this.state || runningTransition )) {
@@ -338,9 +338,6 @@ function castError(err) {
 function handleError(err) {
   err = castError(err);
   throw err;
-}
-function lookup(owner, key) {
-  return owner ? owner.context && owner.context[key] !== undefined ? owner.context[key] : lookup(owner.owner, key) : undefined;
 }
 
 const FALLBACK = Symbol("fallback");
@@ -2862,6 +2859,8 @@ exports.createSignal = createSignal;
 exports.difference_1 = difference_1;
 exports.effect = effect;
 exports.insert = insert;
+exports.onMount = onMount;
 exports.render = render;
 exports.setProp = setProp;
+exports.use = use;
 exports.useGameEvent = useGameEvent;
