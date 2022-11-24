@@ -2,10 +2,32 @@
   width: 64px;
   height: 64px;
   margin: 5px;
+  box-shadow: #000 0px 0px 5px;
 }
 .styled-50952f12 DOTAAbilityImage {
   width: 100%;
   height: 100%;
+}
+.styled-50952f12 .AbilityBorder {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #999999;
+}
+.styled-50952f12 .HotKey {
+  horizontal-align: center;
+  vertical-align: bottom;
+  color: #ffffff;
+  font-family: RadianceM;
+  padding: 2px;
+  text-shadow: #000000 0px 0px 2px 3;
+}
+.styled-50952f12.IsPassive .AbilityBorder {
+  border: 0px;
+  box-shadow: inset #000 0px 0px 5px;
+}
+.styled-50952f12.IsNotActive DOTAAbilityImage {
+  wash-color: #999999;
+  saturation: 0.5;
 }
 
 .styled-9a15cb87 {

@@ -23,7 +23,14 @@
             {
                 "name": "typescript-styled-plugin",
                 "lint": {
-                    "validProperties": ["flow-children", "horizontal-align"]
+                    "validProperties": [
+                        "flow-children",
+                        "horizontal-align",
+                        "wash-color",
+                        "saturation",
+                        "brightness",
+                        "contrast"
+                    ]
                 }
             }
         ]

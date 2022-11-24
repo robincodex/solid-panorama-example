@@ -13,8 +13,32 @@ function Ability(props) {
           return props.ability;
         }
       }, _el$);
+      libs.createElement("Panel", {
+        "class": "AbilityBorder"
+      }, _el$);
+      const _el$4 = libs.createElement("Label", {
+        "class": "HotKey",
+        get text() {
+          return Abilities.GetKeybind(props.ability);
+        }
+      }, _el$);
     libs.setProp(_el$, "class", AbilityStyle);
-    libs.effect(_$p => libs.setProp(_el$2, "contextEntityIndex", props.ability, _$p));
+    libs.effect(_p$ => {
+      const _v$ = {
+          IsPassive: Abilities.IsPassive(props.ability),
+          IsNotActive: !Abilities.IsActivated(props.ability) || Abilities.GetLevel(props.ability) <= 0
+        },
+        _v$2 = props.ability,
+        _v$3 = Abilities.GetKeybind(props.ability);
+      _v$ !== _p$._v$ && (_p$._v$ = libs.setProp(_el$, "classList", _v$, _p$._v$));
+      _v$2 !== _p$._v$2 && (_p$._v$2 = libs.setProp(_el$2, "contextEntityIndex", _v$2, _p$._v$2));
+      _v$3 !== _p$._v$3 && (_p$._v$3 = libs.setProp(_el$4, "text", _v$3, _p$._v$3));
+      return _p$;
+    }, {
+      _v$: undefined,
+      _v$2: undefined,
+      _v$3: undefined
+    });
     return _el$;
   })();
 }
@@ -57,12 +81,17 @@ function DotaAbilities() {
   libs.createEffect(() => {
     updateAbilities();
   }, unit());
+  libs.onMount(() => {
+    setInterval(() => {
+      updateAbilities();
+    }, 200);
+  });
   return (() => {
-    const _el$3 = libs.createElement("Panel", {
+    const _el$5 = libs.createElement("Panel", {
       "class": DotaAbilitiesStyle
     }, null);
-    libs.setProp(_el$3, "class", DotaAbilitiesStyle);
-    libs.insert(_el$3, libs.createComponent(libs.For, {
+    libs.setProp(_el$5, "class", DotaAbilitiesStyle);
+    libs.insert(_el$5, libs.createComponent(libs.For, {
       get each() {
         return abilities();
       },
@@ -70,7 +99,7 @@ function DotaAbilities() {
         ability: ability
       })
     }));
-    return _el$3;
+    return _el$5;
   })();
 }
 
