@@ -797,16 +797,6 @@ const StyleKeyAutoConvertToPixelList = [
 
 function noop() { }
 
-function useGameEvent(eventName, callback, deps) {
-    createEffect(() => {
-        const id = GameEvents.Subscribe(eventName, evt => {
-            callback(evt);
-        });
-        return () => {
-            GameEvents.Unsubscribe(id);
-        };
-    }, deps);
-}
 function setDragEvent(node, event, callback) {
     event = event.slice(2);
     if (!callback) {
@@ -862,10 +852,22 @@ function setCustomTooltipParams(node, params) {
 }
 
 const hasOwn = Object.prototype.hasOwnProperty;
+const nodeTrash = (function () {
+    let root = $.GetContextPanel();
+    while (root.GetParent()) {
+        root = root.GetParent();
+    }
+    return $.CreatePanelWithProperties('Panel', root, '', {
+        style: 'visibility: collapse;'
+    });
+})();
 const { render: _render, effect, memo, createComponent, createElement, createTextNode, insertNode, insert, spread, setProp, mergeProps, use } = createRenderer({
     createElement(type, props, parent) {
         const { id, snippet, vars, dialogVariables, text } = props, _props = __rest(props, ["id", "snippet", "vars", "dialogVariables", "text"]);
         const el = $.CreatePanelWithProperties(type, parent || $.GetContextPanel(), id || '', _props);
+        if (snippet) {
+            el.BLoadLayoutSnippet(snippet);
+        }
         if (vars) {
             setDialogVariables(el, vars, {});
         }
@@ -879,9 +881,6 @@ const { render: _render, effect, memo, createComponent, createElement, createTex
             else {
                 el.text = text;
             }
-        }
-        if (snippet) {
-            el.BLoadLayoutSnippet(snippet);
         }
         return el;
     },
@@ -925,6 +924,7 @@ const { render: _render, effect, memo, createComponent, createElement, createTex
         if (!parent || !parent.IsValid() || !node || !node.IsValid()) {
             return;
         }
+        node.SetParent(nodeTrash);
         node.DeleteAsync(0);
     },
     getParentNode(node) {
@@ -1014,17 +1014,16 @@ const { render: _render, effect, memo, createComponent, createElement, createTex
         }
     }
 });
-const renderPanoramaSymbol = Symbol('render');
 function render(code, container) {
-    if (container.__renderPanoramaSymbol) {
-        if (container.__renderPanoramaSymbol === renderPanoramaSymbol) {
-            $.Msg('render() can only be called once');
-            return;
-        }
-        container.__renderPanoramaSymbol = renderPanoramaSymbol;
+    if (container.__solidDisposer) {
+        container.__solidDisposer();
         container.RemoveAndDeleteChildren();
     }
-    return _render(code, container);
+    Object.defineProperty(container, '__solidDisposer', {
+        configurable: true,
+        value: _render(code, container)
+    });
+    return container.__solidDisposer;
 }
 const splitClassName = /\s+/;
 function applyClassNames(node, names, prev) {
@@ -2863,4 +2862,3 @@ exports.onMount = onMount;
 exports.render = render;
 exports.setProp = setProp;
 exports.use = use;
-exports.useGameEvent = useGameEvent;

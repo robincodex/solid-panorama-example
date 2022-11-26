@@ -1,4 +1,10 @@
-import { createEffect, createSignal, onMount, ParentComponent } from 'solid-js';
+import {
+    createEffect,
+    createSignal,
+    onCleanup,
+    onMount,
+    ParentComponent
+} from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'solid-panorama-all-in-jsx/xml.macro';
 import css from 'solid-panorama-all-in-jsx/css.macro';

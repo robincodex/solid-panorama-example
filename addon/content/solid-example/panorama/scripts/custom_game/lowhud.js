@@ -46,12 +46,22 @@ const DotaAbilitiesStyle = "styled-9a15cb87";
 function DotaAbilities() {
   const [unit, setUnit] = libs.createSignal(Players.GetLocalPlayerPortraitUnit());
   const [abilities, setAbilities] = libs.createSignal([]);
-  libs.useGameEvent('dota_player_update_query_unit', evt => {
-    setUnit(Players.GetLocalPlayerPortraitUnit());
-  }, unit());
-  libs.useGameEvent('dota_player_update_selected_unit', evt => {
-    setUnit(Players.GetLocalPlayerPortraitUnit());
-  }, unit());
+  libs.createEffect(() => {
+    const id = GameEvents.Subscribe('dota_player_update_query_unit', evt => {
+      setUnit(Players.GetLocalPlayerPortraitUnit());
+    });
+    return () => {
+      GameEvents.Unsubscribe(id);
+    };
+  });
+  libs.createEffect(() => {
+    const id = GameEvents.Subscribe('dota_player_update_selected_unit', evt => {
+      setUnit(Players.GetLocalPlayerPortraitUnit());
+    });
+    return () => {
+      GameEvents.Unsubscribe(id);
+    };
+  });
 
   function updateAbilities() {
     const currentUnit = unit();
@@ -80,7 +90,7 @@ function DotaAbilities() {
   }
   libs.createEffect(() => {
     updateAbilities();
-  }, unit());
+  });
   libs.onMount(() => {
     setInterval(() => {
       updateAbilities();

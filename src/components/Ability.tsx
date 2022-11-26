@@ -1,6 +1,6 @@
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import css from 'solid-panorama-all-in-jsx/css.macro';
-import { useGameEvent } from 'solid-panorama-runtime';
+import { useGameEvent } from 'solid-panorama-all-in-jsx/events.macro';
 import { CButton } from './Button';
 import difference from 'lodash/difference';
 
@@ -70,20 +70,12 @@ export function DotaAbilities() {
     const [unit, setUnit] = createSignal(Players.GetLocalPlayerPortraitUnit());
     const [abilities, setAbilities] = createSignal<AbilityEntityIndex[]>([]);
 
-    useGameEvent(
-        'dota_player_update_query_unit',
-        evt => {
-            setUnit(Players.GetLocalPlayerPortraitUnit());
-        },
-        unit()
-    );
-    useGameEvent(
-        'dota_player_update_selected_unit',
-        evt => {
-            setUnit(Players.GetLocalPlayerPortraitUnit());
-        },
-        unit()
-    );
+    useGameEvent('dota_player_update_query_unit', evt => {
+        setUnit(Players.GetLocalPlayerPortraitUnit());
+    });
+    useGameEvent('dota_player_update_selected_unit', evt => {
+        setUnit(Players.GetLocalPlayerPortraitUnit());
+    });
 
     // Update abilities from unit
     function updateAbilities() {
@@ -119,7 +111,7 @@ export function DotaAbilities() {
 
     createEffect(() => {
         updateAbilities();
-    }, unit());
+    });
 
     onMount(() => {
         setInterval(() => {

@@ -1119,10 +1119,10 @@
   dependencies:
     slash "^4.0.0"
 
-"@rollup/plugin-babel@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-6.0.2.tgz#92ad7a00cc0e4a6b59e1498cda9f907a9c0d2db3"
-  integrity sha512-Vnt8XIWYwCf3MD7qhBWYlP9pjSZvcE++nlPXhQYw6YNehl5742AzFbrV6h4BHb20VAOVUlIksVLymQCTwVCGDg==
+"@rollup/plugin-babel@^6.0.3":
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-6.0.3.tgz#07ccde15de278c581673034ad6accdb4a153dfeb"
+  integrity sha512-fKImZKppa1A/gX73eg4JGo+8kQr/q1HBQaCGKECZ0v4YBBv3lFqi14+7xyApECzvkLTHCifx+7ntcrvtBIRcpg==
   dependencies:
     "@babel/helper-module-imports" "^7.18.6"
     "@rollup/pluginutils" "^5.0.1"
@@ -1263,10 +1263,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/lodash@^4.14.189":
-  version "4.14.189"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.189.tgz#975ff8c38da5ae58b751127b19ad5e44b5b7f6d2"
-  integrity sha512-kb9/98N6X8gyME9Cf7YaqIMvYGnBSWqEci6tiettE6iJWH1XdJz/PO8LB0GtLCG7x8dU3KWhZT+lA1a35127tA==
+"@types/lodash@^4.14.190":
+  version "4.14.190"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.190.tgz#d8e99647af141c63902d0ca53cf2b34d2df33545"
+  integrity sha512-5iJ3FBJBvQHQ8sFhEhJfjUP+G+LalhavTkYyrAYqz5MEJG+erSv0k9KJLb6q7++17Lafk1scaTIFXcMJlwK8Mw==
 
 "@types/minimatch@*":
   version "5.1.2"
@@ -1371,10 +1371,10 @@ babel-plugin-polyfill-regenerator@^0.4.1:
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.3.3"
 
-babel-preset-solid-panorama@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/babel-preset-solid-panorama/-/babel-preset-solid-panorama-0.1.3.tgz#ea14b6a81d1002f3cfaac1c9646b72c793bdc1aa"
-  integrity sha512-+BhbrVM517X2xsoNSFhaeDX9eVHKj2o8fsIiS9PVCOTrTISh/ZEFythjPdYFcRRJTs5XJHkhA3UtKU/BmTyuDA==
+babel-preset-solid-panorama@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/babel-preset-solid-panorama/-/babel-preset-solid-panorama-0.1.5.tgz#dbc84a7396db4038871f0a0f8f1d8a86919d03c1"
+  integrity sha512-WJsZNJ1Y217bZ0jxu9abgDj1FyLu+Fdh1nTESY4ZukEAQi28vBlNQFPww/kfonkDOGVZr66CyI42ShJ+TCsRTQ==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -2490,10 +2490,10 @@ solid-js@^1.6.2:
   dependencies:
     csstype "^3.1.0"
 
-solid-panorama-all-in-jsx@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/solid-panorama-all-in-jsx/-/solid-panorama-all-in-jsx-0.1.9.tgz#c2fb4bd95bd5c5e357fade7c5f7b23d403a9292e"
-  integrity sha512-OM2AIfepSny9/04rLyasiQek6dSLsv9D50cgT3dsqA72Hw1Gg4kDVVsRNq8olJqPHEpwdza/z7DNybejWHEaxg==
+solid-panorama-all-in-jsx@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/solid-panorama-all-in-jsx/-/solid-panorama-all-in-jsx-0.2.1.tgz#1c79023686d623f36e09266a931af9a2e70a9a47"
+  integrity sha512-1NcA6xdHoArjfxY+nk7SmNE1ZrcfiJXTfQOeFon2KzIxGgyM7WM+7Up6abgjrZj9KJs9PNgQSURvOtV7wrImwA==
   dependencies:
     babel-plugin-macros "^3.1.0"
     xml-js "^1.6.11"
@@ -2503,10 +2503,10 @@ solid-panorama-polyfill@^0.1.3:
   resolved "https://registry.yarnpkg.com/solid-panorama-polyfill/-/solid-panorama-polyfill-0.1.3.tgz#0d148138087bd1e09f5d725f58fb85c3325b94ab"
   integrity sha512-U2ECBa/bJq+eGiXJfXOyihpCB+m8FtBDA8QEUxnij9wERyo+2+O06bI6V6mhpiB+stSDnN1DywbjDantxZXAmQ==
 
-solid-panorama-runtime@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/solid-panorama-runtime/-/solid-panorama-runtime-0.2.0.tgz#43e0d17512bee1a29c7e7a6ad0c9886ea99dcbe0"
-  integrity sha512-pS6v2xN4N0JsKE1HDj6grPAmii1VR5y7ldCNZrjEziRaki6b/HiLg/1rLl9iJ9DrKWOwJZbNldOw6zY2eSRwJw==
+solid-panorama-runtime@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/solid-panorama-runtime/-/solid-panorama-runtime-0.2.5.tgz#8286fad605f96f692e135d921725104f1aa3e1dc"
+  integrity sha512-PRNpkOVAcAHUKVp8OJzzXJL2zQhMdWozxUXlR3J3+CjHgemD3C5lQZ5feuOyxENcpVoVm3YFdW2ENx99mpdEIw==
   dependencies:
     "@moddota/panorama-types" "^1.21.0"
 
