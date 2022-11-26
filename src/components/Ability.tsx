@@ -67,29 +67,28 @@ const DotaAbilitiesStyle = css`
 `;
 
 export function DotaAbilities() {
-    const [unit, setUnit] = createSignal(Players.GetLocalPlayerPortraitUnit());
+    let unit = Players.GetLocalPlayerPortraitUnit();
     const [abilities, setAbilities] = createSignal<AbilityEntityIndex[]>([]);
 
     useGameEvent('dota_player_update_query_unit', evt => {
-        setUnit(Players.GetLocalPlayerPortraitUnit());
+        unit = Players.GetLocalPlayerPortraitUnit();
     });
     useGameEvent('dota_player_update_selected_unit', evt => {
-        setUnit(Players.GetLocalPlayerPortraitUnit());
+        unit = Players.GetLocalPlayerPortraitUnit();
     });
 
     // Update abilities from unit
     function updateAbilities() {
-        const currentUnit = unit();
-        if (currentUnit < 0) {
+        if (unit < 0) {
             if (abilities().length > 0) {
                 setAbilities([]);
             }
             return;
         }
         const list: AbilityEntityIndex[] = [];
-        const count = Entities.GetAbilityCount(currentUnit);
+        const count = Entities.GetAbilityCount(unit);
         for (let i = 0; i < count; i++) {
-            const ability = Entities.GetAbility(currentUnit, i);
+            const ability = Entities.GetAbility(unit, i);
             if (Entities.IsValidEntity(ability)) {
                 if (
                     Abilities.IsHidden(ability) ||
@@ -108,10 +107,6 @@ export function DotaAbilities() {
             setAbilities([...list]);
         }
     }
-
-    createEffect(() => {
-        updateAbilities();
-    });
 
     onMount(() => {
         setInterval(() => {

@@ -44,11 +44,11 @@ function Ability(props) {
 }
 const DotaAbilitiesStyle = "styled-9a15cb87";
 function DotaAbilities() {
-  const [unit, setUnit] = libs.createSignal(Players.GetLocalPlayerPortraitUnit());
+  let unit = Players.GetLocalPlayerPortraitUnit();
   const [abilities, setAbilities] = libs.createSignal([]);
   libs.createEffect(() => {
     const id = GameEvents.Subscribe('dota_player_update_query_unit', evt => {
-      setUnit(Players.GetLocalPlayerPortraitUnit());
+      unit = Players.GetLocalPlayerPortraitUnit();
     });
     return () => {
       GameEvents.Unsubscribe(id);
@@ -56,7 +56,7 @@ function DotaAbilities() {
   });
   libs.createEffect(() => {
     const id = GameEvents.Subscribe('dota_player_update_selected_unit', evt => {
-      setUnit(Players.GetLocalPlayerPortraitUnit());
+      unit = Players.GetLocalPlayerPortraitUnit();
     });
     return () => {
       GameEvents.Unsubscribe(id);
@@ -64,17 +64,16 @@ function DotaAbilities() {
   });
 
   function updateAbilities() {
-    const currentUnit = unit();
-    if (currentUnit < 0) {
+    if (unit < 0) {
       if (abilities().length > 0) {
         setAbilities([]);
       }
       return;
     }
     const list = [];
-    const count = Entities.GetAbilityCount(currentUnit);
+    const count = Entities.GetAbilityCount(unit);
     for (let i = 0; i < count; i++) {
-      const ability = Entities.GetAbility(currentUnit, i);
+      const ability = Entities.GetAbility(unit, i);
       if (Entities.IsValidEntity(ability)) {
         if (Abilities.IsHidden(ability) || Abilities.IsAttributeBonus(ability) || Abilities.GetAbilityType(ability) === ABILITY_TYPES.ABILITY_TYPE_ATTRIBUTES) {
           continue;
@@ -88,9 +87,6 @@ function DotaAbilities() {
       setAbilities([...list]);
     }
   }
-  libs.createEffect(() => {
-    updateAbilities();
-  });
   libs.onMount(() => {
     setInterval(() => {
       updateAbilities();
