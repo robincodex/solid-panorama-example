@@ -7,6 +7,7 @@
     <include src="file://{resources}/scripts/custom_game/panorama-polyfill.js"/>
     <include src="file://{resources}/scripts/custom_game/lowhud.js"/>
   </scripts>
+  <snippets/>
   <Panel class="root" hittest="false">
     <Panel id="app" class="root"/>
   </Panel>

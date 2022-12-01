@@ -1,12 +1,26 @@
 .styled-50952f12 {
+  margin: 5px;
+  flow-children: down;
+  overflow: noclip;
+}
+.styled-50952f12 .AbilityImageWrapper {
+  box-shadow: #000 0px 0px 5px;
+  overflow: noclip;
+}
+.styled-50952f12 .AbilityImageWrapper,
+.styled-50952f12 DOTAAbilityImage {
   width: 64px;
   height: 64px;
-  margin: 5px;
-  box-shadow: #000 0px 0px 5px;
 }
-.styled-50952f12 DOTAAbilityImage {
+.styled-50952f12 .LearnButton {
   width: 100%;
-  height: 100%;
+  height: 15px;
+  background-color: #ffc800;
+  opacity: 0;
+  background-image: url("s2r://panorama/images/control_icons/plus_png.vtex");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 15px 15px;
 }
 .styled-50952f12 .AbilityBorder {
   width: 100%;
@@ -14,20 +28,49 @@
   border: 2px solid #999999;
 }
 .styled-50952f12 .HotKey {
-  horizontal-align: center;
-  vertical-align: bottom;
+  min-width: 20px;
   color: #ffffff;
   font-family: RadianceM;
   padding: 2px;
-  text-shadow: #000000 0px 0px 2px 3;
+  background-color: #222222;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  font-size: 14px;
+  transform: translate3d(-5px, -5px, 0px);
+  text-align: center;
+}
+.styled-50952f12 .Mana {
+  horizontal-align: right;
+  vertical-align: bottom;
+  color: #00b3ff;
+  font-family: RadianceM;
+  padding: 2px;
+  text-shadow: #000000 0px 0px 2px 4;
+}
+.styled-50952f12 .AbilityLevel {
+  flow-children: right;
+  horizontal-align: center;
+  margin-top: 2px;
+}
+.styled-50952f12 .AbilityLevel .Level {
+  width: 13px;
+  height: 5px;
+  margin: 2px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.styled-50952f12 .AbilityLevel .Level.IsActivate {
+  background-color: #ffc800;
 }
 .styled-50952f12.IsPassive .AbilityBorder {
   border: 0px;
   box-shadow: inset #000 0px 0px 5px;
 }
 .styled-50952f12.IsNotActive DOTAAbilityImage {
-  wash-color: #999999;
+  wash-color: #555555;
   saturation: 0.5;
+}
+.styled-50952f12.CanLearn .LearnButton {
+  opacity: 1;
 }
 
 .styled-9a15cb87 {

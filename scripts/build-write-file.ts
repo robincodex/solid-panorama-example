@@ -2,7 +2,6 @@ import fs, { promises } from 'fs';
 
 const w = promises.writeFile;
 const r = promises.readFile;
-// @ts-ignore
 const ww: typeof w = async function (file, data, options): Promise<void> {
     try {
         const content = await r(file, options);

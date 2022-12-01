@@ -1328,10 +1328,10 @@ arg@^4.1.0:
   resolved "https://registry.yarnpkg.com/arg/-/arg-4.1.3.tgz#269fc7ad5b8e42cb63c896d5666017261c144089"
   integrity sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==
 
-babel-plugin-jsx-panorama-expressions@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-panorama-expressions/-/babel-plugin-jsx-panorama-expressions-0.1.5.tgz#4b98f19b2f3367beeaf064d068b2b8d7ee881c5b"
-  integrity sha512-61mk+qfcxbvaCg5HkgIZnzTI+7kLEA3ACJGubaU0pArUJ/q/MDtwQNjdrNHYorKQrRlUFIlRjDJLHiR9mLeNEw==
+babel-plugin-jsx-panorama-expressions@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/babel-plugin-jsx-panorama-expressions/-/babel-plugin-jsx-panorama-expressions-0.1.7.tgz#bac66475f3c954027ce5973e663cd14691641a46"
+  integrity sha512-o9x7l8Bk7P5HdpcHcwHMIRYRTVZWyVbEY/fB+M+7CQeAlq5JD8vabotBVcWQsfCuuRn0nBSoOz+0uK47/mgGzg==
   dependencies:
     "@babel/helper-module-imports" "^7.18.6"
     "@babel/plugin-syntax-jsx" "^7.18.6"
@@ -2490,10 +2490,10 @@ solid-js@^1.6.2:
   dependencies:
     csstype "^3.1.0"
 
-solid-panorama-all-in-jsx@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/solid-panorama-all-in-jsx/-/solid-panorama-all-in-jsx-0.2.1.tgz#1c79023686d623f36e09266a931af9a2e70a9a47"
-  integrity sha512-1NcA6xdHoArjfxY+nk7SmNE1ZrcfiJXTfQOeFon2KzIxGgyM7WM+7Up6abgjrZj9KJs9PNgQSURvOtV7wrImwA==
+solid-panorama-all-in-jsx@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/solid-panorama-all-in-jsx/-/solid-panorama-all-in-jsx-0.2.4.tgz#d11c084901662f1791c892b692abbffaf5f6dd52"
+  integrity sha512-iqwojKM0lhjEhsxSoxxU3HsE03K7YaRoeNGEocOo8VAHOWqcgDICEOzc23V1ybAO2GsO/IBTxwi12Z13RsfTBw==
   dependencies:
     babel-plugin-macros "^3.1.0"
     xml-js "^1.6.11"
@@ -2503,10 +2503,10 @@ solid-panorama-polyfill@^0.1.3:
   resolved "https://registry.yarnpkg.com/solid-panorama-polyfill/-/solid-panorama-polyfill-0.1.3.tgz#0d148138087bd1e09f5d725f58fb85c3325b94ab"
   integrity sha512-U2ECBa/bJq+eGiXJfXOyihpCB+m8FtBDA8QEUxnij9wERyo+2+O06bI6V6mhpiB+stSDnN1DywbjDantxZXAmQ==
 
-solid-panorama-runtime@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/solid-panorama-runtime/-/solid-panorama-runtime-0.2.5.tgz#8286fad605f96f692e135d921725104f1aa3e1dc"
-  integrity sha512-PRNpkOVAcAHUKVp8OJzzXJL2zQhMdWozxUXlR3J3+CjHgemD3C5lQZ5feuOyxENcpVoVm3YFdW2ENx99mpdEIw==
+solid-panorama-runtime@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/solid-panorama-runtime/-/solid-panorama-runtime-0.2.8.tgz#f4ae8bb54c6f482eb2d631f8e3a7d9b689470584"
+  integrity sha512-4ReHEDteFgOmaF2KJ2Em76GLcBoOC6Y1UIxZciVOrGdGJNgFkzCeR/VR5m3ViRRRavOAQml3f528kBOuYgPGyQ==
   dependencies:
     "@moddota/panorama-types" "^1.21.0"
 

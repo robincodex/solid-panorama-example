@@ -42,8 +42,8 @@ export default function GetRollupWatchOptions(rootPath: string) {
                     return 'common';
                 }
                 if (
-                    id === 'commonjsHelpers.js' ||
-                    id === 'rollupPluginBabelHelpers.js' ||
+                    id.includes('commonjsHelpers.js') ||
+                    id.includes('rollupPluginBabelHelpers.js') ||
                     id.search(/[\\/]node_modules[\\/]/) >= 0
                 ) {
                     return 'libs';
@@ -92,6 +92,7 @@ export default function GetRollupWatchOptions(rootPath: string) {
             nodeResolve({ extensions: ['.tsx', '.ts', '.js', '.jsx'] }),
             compatiblePanorama(),
             rollupPluginXML({
+                inputFiles,
                 dir: join(
                     __dirname,
                     '../addon/content/solid-example/panorama/layout/custom_game'
