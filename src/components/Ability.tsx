@@ -46,6 +46,12 @@ const AbilityStyle = css`
         border: 2px solid #999999;
     }
 
+    .AbilityCooldown {
+        width: 100%;
+        height: 100%;
+        background-color: #2d2d2de0;
+    }
+
     .HotKey {
         min-width: 20px;
         color: #ffffff;
@@ -108,6 +114,7 @@ function Ability(props: { slot: number; list: AbilityList }) {
     const [isNotActive, setIsNotActive] = createSignal(false);
     const [canLearn, setCanLearn] = createSignal(false);
     const [maxLevel, setMaxLevel] = createSignal<boolean[]>([]);
+    let AbilityCooldown: Panel | undefined;
 
     onMount(() => {
         function updateState() {
@@ -154,8 +161,32 @@ function Ability(props: { slot: number; list: AbilityList }) {
             }
         }
 
+        let cooldownTimer = 0;
+        function updateCooldown() {
+            if (Abilities.IsCooldownReady(ability())) {
+                if (cooldownTimer !== 0) {
+                    clearInterval(cooldownTimer);
+                    cooldownTimer = 0;
+                }
+                AbilityCooldown!.visible = false;
+            } else if (cooldownTimer === 0) {
+                cooldownTimer = setInterval(() => {
+                    const time = Abilities.GetCooldownTime(ability());
+                    let percent = time / Abilities.GetCooldownLength(ability());
+                    if (isNaN(percent) || percent === Infinity) {
+                        percent = 0;
+                    }
+                    AbilityCooldown!.style.clip = `radial(50% 50%, 0deg, ${
+                        percent * -360
+                    }deg)`;
+                    AbilityCooldown!.visible = true;
+                }, 0);
+            }
+        }
+
         setInterval(() => {
             batch(updateState);
+            updateCooldown();
         }, 200);
     });
 
@@ -202,6 +233,11 @@ function Ability(props: { slot: number; list: AbilityList }) {
                 }}
             >
                 <DOTAAbilityImage contextEntityIndex={ability()} />
+                <Panel
+                    class="AbilityCooldown"
+                    visible={false}
+                    ref={AbilityCooldown}
+                />
                 <Panel class="AbilityBorder" />
                 <Label
                     class="HotKey"

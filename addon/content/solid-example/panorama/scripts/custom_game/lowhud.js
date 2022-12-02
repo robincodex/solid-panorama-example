@@ -41,6 +41,7 @@ function Ability(props) {
   const [isNotActive, setIsNotActive] = libs.createSignal(false);
   const [canLearn, setCanLearn] = libs.createSignal(false);
   const [maxLevel, setMaxLevel] = libs.createSignal([]);
+  let AbilityCooldown;
   libs.onMount(() => {
     function updateState() {
       const currentAbility = props.list.value(props.slot) || -1;
@@ -72,8 +73,29 @@ function Ability(props) {
         }
       }
     }
+    let cooldownTimer = 0;
+    function updateCooldown() {
+      if (Abilities.IsCooldownReady(ability())) {
+        if (cooldownTimer !== 0) {
+          clearInterval(cooldownTimer);
+          cooldownTimer = 0;
+        }
+        AbilityCooldown.visible = false;
+      } else if (cooldownTimer === 0) {
+        cooldownTimer = setInterval(() => {
+          const time = Abilities.GetCooldownTime(ability());
+          let percent = time / Abilities.GetCooldownLength(ability());
+          if (isNaN(percent) || percent === Infinity) {
+            percent = 0;
+          }
+          AbilityCooldown.style.clip = `radial(50% 50%, 0deg, ${percent * -360}deg)`;
+          AbilityCooldown.visible = true;
+        }, 0);
+      }
+    }
     setInterval(() => {
       libs.batch(updateState);
+      updateCooldown();
     }, 200);
   });
   return (() => {
@@ -91,23 +113,26 @@ function Ability(props) {
         get contextEntityIndex() {
           return ability();
         }
+      }, _el$3),
+      _el$5 = libs.createElement("Panel", {
+        "class": "AbilityCooldown"
       }, _el$3);
       libs.createElement("Panel", {
         "class": "AbilityBorder"
       }, _el$3);
-      const _el$6 = libs.createElement("Label", {
+      const _el$7 = libs.createElement("Label", {
         "class": "HotKey",
         get text() {
           return Abilities.GetKeybind(ability());
         }
       }, _el$3),
-      _el$7 = libs.createElement("Label", {
+      _el$8 = libs.createElement("Label", {
         "class": "Mana",
         get text() {
           return Abilities.GetManaCost(ability());
         }
       }, _el$3),
-      _el$8 = libs.createElement("Panel", {
+      _el$9 = libs.createElement("Panel", {
         "class": "AbilityLevel"
       }, _el$);
     libs.setProp(_el$, "class", AbilityStyle);
@@ -127,17 +152,19 @@ function Ability(props) {
     libs.setProp(_el$3, "onmouseout", selfPanel => {
       $.DispatchEvent('DOTAHideAbilityTooltip', selfPanel);
     });
-    libs.insert(_el$8, libs.createComponent(libs.Index, {
+    const _ref$ = AbilityCooldown;
+    typeof _ref$ === "function" ? libs.use(_ref$, _el$5) : AbilityCooldown = _el$5;
+    libs.insert(_el$9, libs.createComponent(libs.Index, {
       get each() {
         return maxLevel();
       },
       children: enabled => {
         return (() => {
-          const _el$9 = libs.createElement("Panel", {
+          const _el$10 = libs.createElement("Panel", {
             "class": "Level"
           }, null);
-          libs.effect(_$p => libs.setProp(_el$9, "className", enabled() ? 'IsActivate' : '', _$p));
-          return _el$9;
+          libs.effect(_$p => libs.setProp(_el$10, "className", enabled() ? 'IsActivate' : '', _$p));
+          return _el$10;
         })();
       }
     }));
@@ -156,10 +183,10 @@ function Ability(props) {
       _v$ !== _p$._v$ && (_p$._v$ = libs.setProp(_el$, "visible", _v$, _p$._v$));
       _v$2 !== _p$._v$2 && (_p$._v$2 = libs.setProp(_el$, "classList", _v$2, _p$._v$2));
       _v$3 !== _p$._v$3 && (_p$._v$3 = libs.setProp(_el$4, "contextEntityIndex", _v$3, _p$._v$3));
-      _v$4 !== _p$._v$4 && (_p$._v$4 = libs.setProp(_el$6, "visible", _v$4, _p$._v$4));
-      _v$5 !== _p$._v$5 && (_p$._v$5 = libs.setProp(_el$6, "text", _v$5, _p$._v$5));
-      _v$6 !== _p$._v$6 && (_p$._v$6 = libs.setProp(_el$7, "visible", _v$6, _p$._v$6));
-      _v$7 !== _p$._v$7 && (_p$._v$7 = libs.setProp(_el$7, "text", _v$7, _p$._v$7));
+      _v$4 !== _p$._v$4 && (_p$._v$4 = libs.setProp(_el$7, "visible", _v$4, _p$._v$4));
+      _v$5 !== _p$._v$5 && (_p$._v$5 = libs.setProp(_el$7, "text", _v$5, _p$._v$5));
+      _v$6 !== _p$._v$6 && (_p$._v$6 = libs.setProp(_el$8, "visible", _v$6, _p$._v$6));
+      _v$7 !== _p$._v$7 && (_p$._v$7 = libs.setProp(_el$8, "text", _v$7, _p$._v$7));
       return _p$;
     }, {
       _v$: undefined,
@@ -255,11 +282,11 @@ function DotaAbilities() {
     }, 200);
   });
   return (() => {
-    const _el$10 = libs.createElement("Panel", {
+    const _el$11 = libs.createElement("Panel", {
       "class": DotaAbilitiesStyle
     }, null);
-    libs.setProp(_el$10, "class", DotaAbilitiesStyle);
-    libs.insert(_el$10, libs.createComponent(libs.For, {
+    libs.setProp(_el$11, "class", DotaAbilitiesStyle);
+    libs.insert(_el$11, libs.createComponent(libs.For, {
       get each() {
         return list();
       },
@@ -268,7 +295,7 @@ function DotaAbilities() {
         list: abilities
       })
     }));
-    return _el$10;
+    return _el$11;
   })();
 }
 
