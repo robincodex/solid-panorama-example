@@ -51,7 +51,6 @@ function Ability(props) {
       setIsPassive(Abilities.IsPassive(currentAbility));
       setIsNotActive(!Abilities.IsActivated(currentAbility) || Abilities.GetLevel(currentAbility) <= 0);
       setCanLearn(Entities.GetAbilityPoints(Abilities.GetCaster(currentAbility)) > 0 && Abilities.CanAbilityBeUpgraded(currentAbility) === AbilityLearnResult_t.ABILITY_CAN_BE_UPGRADED);
-
       if (maxLevel().length !== _maxLevel) {
         const list = [];
         for (let i = 0; i < _maxLevel; i++) {
