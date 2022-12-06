@@ -1,0 +1,12 @@
+"XLSXContent" {
+	"item_equip_axe_1001" {
+		"BaseClass" "item_datadriven"
+		"ID" "10027"
+		"AbilityTextureName" "item_item_equip_axe_1001"
+		"Effect" "particles/item/item_box.vpcf"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"ItemKillable" "0"
+		"ItemDeclarations" "DECLARE_PURCHASES_TO_TEAMMATES"
+
+	}
+}

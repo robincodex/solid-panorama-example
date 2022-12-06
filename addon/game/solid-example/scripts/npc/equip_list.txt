@@ -1,0 +1,22 @@
+"XLSXContent" {
+   	"item_equip_axe_1001" {
+   		"equip_type" "1"
+   		"part" "weapon"
+   		"level" "5"
+   		"quality" "1"
+   		"suit_name" "non"
+   		"baseProperty_1" "attack_dmg"
+   		"baseProperty_1_value" "18"
+   		"baseProperty_2" "attack_spd"
+   		"baseProperty_2_value" "2"
+   		"random_num" "0"
+   		"special_num" "0"
+   		"specialProperty_1_name" "non"
+   		"specialProperty_1_value" "0"
+   		"specialProperty_2_name" "non"
+   		"specialProperty_2_value" "0"
+   		"drop_difficulty" "1"
+   		"drop_rule" "0"
+   	}
+
+}

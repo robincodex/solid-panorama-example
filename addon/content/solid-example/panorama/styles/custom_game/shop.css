@@ -3,39 +3,31 @@
   height: 100%;
 }
 
-.styled-64b8d417 {
-  background-color: gradient(linear, 0% 100%, 0% 0%, from(#111111), to(#333333));
-  box-shadow: #000000 0px 0px 4px;
-  padding: 10px 30px;
+.equipItem {
+  width: 60px;
+  height: 60px;
+  margin: 0 2px 2px 1px;
+  border: 2px solid #353525;
 }
-.styled-64b8d417 Image {
-  width: 20px;
-  height: 20px;
+.equipItem DOTAItemImage {
+  z-index: 0;
+  tooltip-position: top;
 }
-.styled-64b8d417 Label {
-  color: #ffffff;
-  font-size: 16px;
-  vertical-align: middle;
+
+.dragging_from {
+  border: 2px solid red;
 }
-.styled-64b8d417.small {
-  padding: 5px 15px;
-  font-size: 12px;
+
+.trying_to_drop {
+  border: 2px solid green;
 }
-.styled-64b8d417.large {
-  padding: 20px 60px;
-  font-size: 24px;
-}
-.styled-64b8d417.R {
-  background-color: gradient(linear, 0% 100%, 0% 0%, from(#712222), to(#e70000));
-}
-.styled-64b8d417.G {
-  background-color: gradient(linear, 0% 100%, 0% 0%, from(#2f7122), to(#00e708));
-}
-.styled-64b8d417.B {
-  background-color: gradient(linear, 0% 100%, 0% 0%, from(#224471), to(#0083e7));
+
+.selected {
+  border: 1px solid red;
 }
 
 .styled-9aa8fd3e {
+  margin: 100px 100px;
   flow-children: right;
   horizontal-align: center;
   vertical-align: bottom;

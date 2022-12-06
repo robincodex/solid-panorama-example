@@ -2,11 +2,11 @@
 "DOTAUnits"
 {
 	"Version"	"1"
-	
-	//=================================================================================	
+
+	//=================================================================================
 	// Creature: Gnoll Assassin
 	//=================================================================================
-	"npc_dota_creature_gnoll_assassin"	
+	"npc_dota_creature_gnoll_assassin"
 	{
 		// General
 		//----------------------------------------------------------------
@@ -38,7 +38,7 @@
 		"AttackAcquisitionRange"	"800"		// Range within a target can be acquired.
 		"AttackRange"				"500"		// Range within a target can be attacked.
 		"ProjectileModel"			"particles/neutral_fx/gnoll_base_attack.vpcf" // Particle system model for projectile.
-		"ProjectileSpeed"			"1500"		// Speed of projectile.		     
+		"ProjectileSpeed"			"1500"		// Speed of projectile.
 
 		// Bounds
 		//----------------------------------------------------------------
@@ -54,15 +54,15 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"270"		// Speed.			
+		"MovementSpeed"				"270"		// Speed.
 
 		// Status
 		//----------------------------------------------------------------
 		"StatusHealth"				"75"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
-		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
-		
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.
+
 		// Vision
 		//----------------------------------------------------------------
 		"VisionDaytimeRange"		"400"		// Range of vision during day light.
