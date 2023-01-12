@@ -18,3 +18,6 @@ dist
 *.vxml_c
 *.bin
 *.cfg
+.yarn
+yarn.lock
+pnpm-lock.yaml
