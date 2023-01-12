@@ -11,3 +11,7 @@ declare function useTimer(
     deps?: any
 ): void;
 declare function useTimer(callback: () => number | undefined, deps?: any): void;
+
+interface CustomNetTableDeclarations {
+    test: {};
+}
