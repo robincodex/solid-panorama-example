@@ -52,7 +52,7 @@ function createRoot(fn, detachedOwner) {
   const listener = Listener,
         owner = Owner,
         unowned = fn.length === 0,
-        root = unowned && !false ? UNOWNED : {
+        root = unowned ? UNOWNED : {
     owned: null,
     cleanups: null,
     context: null,
@@ -522,6 +522,7 @@ const propTraps = {
     return _.get(property);
   },
   has(_, property) {
+    if (property === $PROXY) return true;
     return _.has(property);
   },
   set: trueFn,
@@ -545,7 +546,13 @@ function resolveSource(s) {
   return !(s = typeof s === "function" ? s() : s) ? {} : s;
 }
 function mergeProps$1(...sources) {
-  if (sources.some(s => s && ($PROXY in s || typeof s === "function"))) {
+  let proxy = false;
+  for (let i = 0; i < sources.length; i++) {
+    const s = sources[i];
+    proxy = proxy || !!s && $PROXY in s;
+    sources[i] = typeof s === "function" ? (proxy = true, createMemo(s)) : s;
+  }
+  if (proxy) {
     return new Proxy({
       get(property) {
         for (let i = sources.length - 1; i >= 0; i--) {
@@ -591,13 +598,13 @@ function For(props) {
   const fallback = "fallback" in props && {
     fallback: () => props.fallback
   };
-  return createMemo(mapArray(() => props.each, props.children, fallback ? fallback : undefined));
+  return createMemo(mapArray(() => props.each, props.children, fallback || undefined));
 }
 function Index(props) {
   const fallback = "fallback" in props && {
     fallback: () => props.fallback
   };
-  return createMemo(indexArray(() => props.each, props.children, fallback ? fallback : undefined));
+  return createMemo(indexArray(() => props.each, props.children, fallback || undefined));
 }
 
 function createRenderer$1({

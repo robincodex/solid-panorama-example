@@ -1,3 +1,7 @@
-(function () {
-    const global = new Function('return this')();
+var polyfillModule = (function () {
+    return {
+        default: global => {
+            // global.x = 1
+        }
+    };
 })();
