@@ -87,10 +87,7 @@ function EquipItemSlot(props: ItemContainerProps) {
                         AbilityIndex: draggedPanel.ItemEntityIndex!
                     };
                     Game.PrepareUnitOrders(order);
-                } else {
-                    // 如果是从棋子给棋子，或者棋子给英雄
-                    // 那么调用服务器直接飞过去
-                }
+                } 
                 return true;
             } else {
                 // 如果没目标，则代表丢弃
@@ -156,9 +153,6 @@ function EquipItemSlot(props: ItemContainerProps) {
                     AbilityIndex: draggedPanel.ItemEntityIndex!
                 };
                 Game.PrepareUnitOrders(order);
-            } else {
-                // 如果是从棋子给棋子，或者棋子给英雄
-                // 那么调用服务器直接飞过去
             }
         }
         return true;

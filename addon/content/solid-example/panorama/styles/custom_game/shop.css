@@ -3,32 +3,31 @@
   height: 100%;
 }
 
-.equipItem {
+.styled-9aa8fd3e {
+  margirootStylen: 100px 100px;
+  flow-children: right;
+  horizontal-align: center;
+  vertical-align: bottom;
+  border: 2px solid rgb(29, 29, 29);
+}
+.styled-9aa8fd3e .equipItem {
   width: 60px;
   height: 60px;
   margin: 0 2px 2px 1px;
   border: 2px solid #353525;
 }
-.equipItem DOTAItemImage {
+.styled-9aa8fd3e .equipItem DOTAItemImage {
+  width: 60px;
+  height: 60px;
   z-index: 0;
   tooltip-position: top;
 }
-
-.dragging_from {
+.styled-9aa8fd3e .dragging_from {
   border: 2px solid red;
 }
-
-.trying_to_drop {
+.styled-9aa8fd3e .trying_to_drop {
   border: 2px solid green;
 }
-
-.selected {
+.styled-9aa8fd3e .selected {
   border: 1px solid red;
-}
-
-.styled-9aa8fd3e {
-  margin: 100px 100px;
-  flow-children: right;
-  horizontal-align: center;
-  vertical-align: bottom;
 }
