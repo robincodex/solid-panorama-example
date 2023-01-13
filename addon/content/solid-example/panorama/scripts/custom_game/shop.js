@@ -31,9 +31,6 @@ function EquipItemSlot(props) {
       {
         if (Entities.IsRealHero(draggedPanel.OwnerEntityIndex)) {
           Game.DropItemAtCursor(draggedPanel.OwnerEntityIndex, draggedPanel.ItemEntityIndex);
-        } else {
-          let cursor = GameUI.GetCursorPosition();
-          Game.ScreenXYToWorld(cursor[0], cursor[1]);
         }
       }
     }
@@ -116,7 +113,7 @@ const getItemList = () => {
   }
   return items;
 };
-function App() {
+const EquipList = () => {
   const [itemList, setItemList] = libs.createSignal(getItemList());
   let id = GameEvents.Subscribe('dota_inventory_changed', () => {
     setItemList(getItemList());
@@ -129,9 +126,9 @@ function App() {
   libs.onCleanup(() => clearInterval(timer));
   return (() => {
     const _el$ = libs.createElement("Panel", {
-      "class": rootStyle
+      hittest: false
     }, null);
-    libs.setProp(_el$, "class", rootStyle);
+    libs.setProp(_el$, "className", "equipList");
     libs.insert(_el$, libs.createComponent(libs.Index, {
       get each() {
         return [...Array(9).keys()];
@@ -151,6 +148,17 @@ function App() {
       })
     }));
     return _el$;
+  })();
+};
+function App() {
+  return (() => {
+    const _el$2 = libs.createElement("Panel", {
+      "class": rootStyle,
+      hittest: false
+    }, null);
+    libs.setProp(_el$2, "class", rootStyle);
+    libs.insert(_el$2, libs.createComponent(EquipList, {}));
+    return _el$2;
   })();
 }
 libs.render(() => libs.createComponent(App, {}), $('#app'));

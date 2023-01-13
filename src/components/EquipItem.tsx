@@ -96,11 +96,7 @@ function EquipItemSlot(props: ItemContainerProps) {
                         draggedPanel.OwnerEntityIndex,
                         draggedPanel.ItemEntityIndex as ItemEntityIndex
                     );
-                } else {
-                    let cursor = GameUI.GetCursorPosition();
-                    let pos = Game.ScreenXYToWorld(cursor[0], cursor[1]);
-                    //调数据丢弃物品
-                }
+                } 
             }
         }
     };

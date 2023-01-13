@@ -2,22 +2,14 @@
  * @Author: du 1149464651@qq.com
  * @Date: 2022-12-03 16:15:30
  * @LastEditors: du 1149464651@qq.com
- * @LastEditTime: 2023-01-13 17:08:17
+ * @LastEditTime: 2023-01-13 23:31:35
  * @FilePath: \solid-panorama-example\src\shop\shop.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import {
-    createEffect,
-    createSignal,
-    Index,
-    onCleanup,
-    onMount,
-    ParentComponent
-} from 'solid-js';
+import { createSignal, Index, onCleanup } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'solid-panorama-all-in-jsx/xml.macro';
 import css from 'solid-panorama-all-in-jsx/css.macro';
-import { CButton } from '../components/Button';
 import EquipItemSlot from '../components/EquipItem';
 
 xml(
@@ -36,35 +28,11 @@ xml(
     </root>
 );
 
+//随便写了个宽高
 const rootStyle = css`
-    margirootStylen: 100px 100px;
-    flow-children: right;
-    horizontal-align: center;
-    vertical-align: bottom;
-    border: 2px solid rgb(29, 29, 29);
-    .equipItem {
-        width: 60px;
-        height: 60px;
-        margin: 0 2px 2px 1px;
-        border: 2px solid #353525;
-        DOTAItemImage {
-            width: 60px;
-            height: 60px;
-            z-index: 0;
-            tooltip-position: top;
-        }
-    }
-    .dragging_from {
-        border: 2px solid red;
-    }
-
-    .trying_to_drop {
-        border: 2px solid green;
-    }
-
-    .selected {
-        border: 1px solid red;
-    }
+    flow-children: down;
+    width: 1980px;
+    height: 900px;
 `;
 //物品栏列表
 const getItemList = () => {
@@ -76,8 +44,21 @@ const getItemList = () => {
     }
     return items;
 };
+//$.Schedule实现setInterval
+const mySetInterval = function (callback: () => void, time: number) {
+    let timer: ScheduleID | null = null;
+    const interval = () => {
+        callback();
+        timer = $.Schedule(time, interval);
+    };
+    $.Schedule(time, interval);
+    return () => {
+        timer !== null && $.CancelScheduled(timer);
+    };
+};
 
-function App() {
+//物品栏
+const EquipList = () => {
     const [itemList, setItemList] = createSignal<ItemEntityIndex[]>(
         getItemList()
     );
@@ -86,17 +67,16 @@ function App() {
         setItemList(getItemList());
     });
     onCleanup(() => GameEvents.Unsubscribe(id));
-
-    //更新当前的装备栏
+    // //更新当前的装备栏
     const Update = () => {
+        // $.Msg('timer,', getItemList());
         setItemList(getItemList());
     };
     const timer = setInterval(Update, Game.GetGameFrameTime());
     onCleanup(() => clearInterval(timer));
+    // $.Msg('timer,', getItemList());
     return (
-        <Panel class={rootStyle}>
-            {/* <CButton text="Button A" small /> */}
-
+        <Panel className="equipList" hittest={false}>
             <Index each={[...Array(9).keys()]}>
                 {slot => (
                     <EquipItemSlot
@@ -110,6 +90,14 @@ function App() {
                     />
                 )}
             </Index>
+        </Panel>
+    );
+};
+
+function App() {
+    return (
+        <Panel class={rootStyle} hittest={false}>
+            <EquipList />
         </Panel>
     );
 }
