@@ -1,4 +1,35 @@
-import { createSignal } from 'solid-js';
+import { createSignal, Index, onCleanup } from 'solid-js';
+import css from 'solid-panorama-all-in-jsx/css.macro';
+
+const rootStyle = css`
+    width: 600px;
+    flow-children: right;
+    horizontal-align: center;
+    vertical-align: bottom;
+    .equipItem {
+        width: 60px;
+        height: 60px;
+        margin: 0 2px 2px 1px;
+        border: 2px solid #353525;
+        DOTAItemImage {
+            width: 60px;
+            height: 60px;
+            z-index: 0;
+            tooltip-position: top;
+        }
+    }
+    .dragging_from {
+        border: 2px solid red;
+    }
+
+    .trying_to_drop {
+        border: 2px solid #5e6e31;
+    }
+
+    .selected {
+        border: 1px solid red;
+    }
+`;
 
 interface ItemContainerProps {
     selectItem?: boolean; // 是否是物品栏格子
@@ -27,21 +58,17 @@ declare global {
     }
 }
 
-function EquipItemSlot(props: ItemContainerProps) {
+function InventoryItem(props: ItemContainerProps) {
     const [selected, setToggleSelected] = createSignal(false);
-
     const GetItemName = () => Abilities.GetAbilityName(props.ItemEntityIndex!);
-    // $.Msg(GetItemName(), props.ItemEntityIndex);
-
     const ShowItemTooltip = (panel: Panel) => {};
-
     const HideItemTooltip = () => {};
 
     /**
      * 开始拖动
      */
     const OnDragStart = (panel: Panel, dragCallbacks: IDragCallbacks) => {
-        if (props.ItemEntityIndex! < 0) return true; //如果没有装备就不往下走
+        if (props.ItemEntityIndex! < 0) return true; //没有装备就不往下走
         if (selected()) {
             setToggleSelected(false);
             // props.OnActivate!(props.ItemEntityIndex!);
@@ -71,14 +98,10 @@ function EquipItemSlot(props: ItemContainerProps) {
         draggedPanel.DeleteAsync(0);
         panel.RemoveClass('dragging_from');
         panel.RemoveClass('trying_to_drop');
-
         if (!draggedPanel.b_dragComplete) {
-            // 拖动到了一个空白的位置？ 除非是直接拖动到棋子身上，否则不做处理
             const target = 0;
-            // $.Msg("trying to drop item", target);
             if (target > 0) {
                 // 如果有目标
-
                 if (Entities.IsRealHero(draggedPanel.OwnerEntityIndex)) {
                     // 如果是从英雄给棋子，让英雄过去给
                     let order = {
@@ -87,7 +110,7 @@ function EquipItemSlot(props: ItemContainerProps) {
                         AbilityIndex: draggedPanel.ItemEntityIndex!
                     };
                     Game.PrepareUnitOrders(order);
-                } 
+                }
                 return true;
             } else {
                 // 如果没目标，则代表丢弃
@@ -96,7 +119,7 @@ function EquipItemSlot(props: ItemContainerProps) {
                         draggedPanel.OwnerEntityIndex,
                         draggedPanel.ItemEntityIndex as ItemEntityIndex
                     );
-                } 
+                }
             }
         }
     };
@@ -128,7 +151,6 @@ function EquipItemSlot(props: ItemContainerProps) {
     const OnDragDrop = (panel: Panel, draggedPanel: Panel) => {
         let draggedItem = draggedPanel.ItemEntityIndex;
         if (draggedItem == null) return true;
-
         draggedPanel.b_dragComplete = true;
 
         if (draggedPanel.OwnerEntityIndex == props.UnitEntityIndex) {
@@ -153,11 +175,6 @@ function EquipItemSlot(props: ItemContainerProps) {
         }
         return true;
     };
-
-    //如果失败，那么取消选中状态
-    // if (props.selectItem == false && selected()) {
-    //     setToggleSelected(false);
-    // }
 
     //如果当前格子内没有装备，那么不可置为选中状态
     if (props.ItemEntityIndex! < 0 && selected() == true) {
@@ -193,4 +210,50 @@ function EquipItemSlot(props: ItemContainerProps) {
     );
 }
 
-export default EquipItemSlot;
+//物品栏列表
+const getItemList = () => {
+    let items = [];
+    for (let slot = 0; slot < 9; ++slot) {
+        items.push(
+            Entities.GetItemInSlot(Players.GetLocalPlayerPortraitUnit(), slot)
+        );
+    }
+    return items;
+};
+
+//物品栏
+const Inventory = () => {
+    const [itemList, setItemList] = createSignal<ItemEntityIndex[]>(
+        getItemList()
+    );
+    //调用原生事件监听
+    let id = GameEvents.Subscribe('dota_inventory_changed', () => {
+        setItemList(getItemList());
+    });
+    onCleanup(() => GameEvents.Unsubscribe(id));
+    // //更新当前的装备栏
+    const Update = () => {
+        setItemList(getItemList());
+    };
+    const timer = setInterval(Update, Game.GetGameFrameTime());
+    onCleanup(() => clearInterval(timer));
+    return (
+        <Panel class={rootStyle} hittest={false}>
+            <Index each={[...Array(9).keys()]}>
+                {slot => (
+                    <InventoryItem
+                        selectItem={true}
+                        IsInventory={true}
+                        SlotIndex={slot()}
+                        ItemEntityIndex={itemList()[slot()]}
+                        UnitEntityIndex={Players.GetPlayerHeroEntityIndex(
+                            Players.GetLocalPlayer()
+                        )}
+                    />
+                )}
+            </Index>
+        </Panel>
+    );
+};
+
+export default Inventory;

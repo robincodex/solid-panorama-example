@@ -3,32 +3,3 @@
     height: 100%;
     
 }
-.equipList{
-    width: 600px;
-    flow-children: right;
-    horizontal-align: center;
-    vertical-align: bottom;
-}
-.equipItem {
-    width: 60px;
-    height: 60px;
-    margin: 0 2px 2px 1px;
-    border: 2px solid #353525;
-    DOTAItemImage {
-        width: 60px;
-        height: 60px;
-        z-index: 0;
-        tooltip-position: top;
-    }
-}
-.dragging_from {
-    border: 2px solid red;
-}
-
-.trying_to_drop {
-    border: 2px solid green;
-}
-
-.selected {
-    border: 1px solid red;
-}

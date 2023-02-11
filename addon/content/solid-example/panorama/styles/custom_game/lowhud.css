@@ -82,6 +82,34 @@
   flow-children: right;
 }
 
+.styled-225b96e1 {
+  width: 600px;
+  flow-children: right;
+  horizontal-align: center;
+  vertical-align: bottom;
+}
+.styled-225b96e1 .equipItem {
+  width: 60px;
+  height: 60px;
+  margin: 0 2px 2px 1px;
+  border: 2px solid #353525;
+}
+.styled-225b96e1 .equipItem DOTAItemImage {
+  width: 60px;
+  height: 60px;
+  z-index: 0;
+  tooltip-position: top;
+}
+.styled-225b96e1 .dragging_from {
+  border: 2px solid red;
+}
+.styled-225b96e1 .trying_to_drop {
+  border: 2px solid #5e6e31;
+}
+.styled-225b96e1 .selected {
+  border: 1px solid red;
+}
+
 .root {
   width: 100%;
   height: 100%;
