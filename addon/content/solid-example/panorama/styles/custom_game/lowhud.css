@@ -88,22 +88,22 @@
   horizontal-align: center;
   vertical-align: bottom;
 }
-.styled-225b96e1 .equipItem {
+.styled-225b96e1 .inventoryItem {
   width: 60px;
-  height: 60px;
+  height: 48px;
   margin: 0 2px 2px 1px;
   border: 2px solid #353525;
 }
-.styled-225b96e1 .equipItem DOTAItemImage {
+.styled-225b96e1 .inventoryItem DOTAItemImage {
   width: 60px;
-  height: 60px;
+  height: 48px;
   z-index: 0;
   tooltip-position: top;
 }
-.styled-225b96e1 .dragging_from {
+.styled-225b96e1 .draggingFrom {
   border: 2px solid red;
 }
-.styled-225b96e1 .trying_to_drop {
+.styled-225b96e1 .tryingToDrop {
   border: 2px solid #5e6e31;
 }
 .styled-225b96e1 .selected {

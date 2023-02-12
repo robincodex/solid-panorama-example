@@ -317,13 +317,13 @@ function InventoryItem(props) {
     dragCallbacks.displayPanel = displayPanel;
     dragCallbacks.offsetX = 30;
     dragCallbacks.offsetY = 22;
-    panel.AddClass('dragging_from');
+    panel.AddClass('draggingFrom');
     return true;
   };
   const OnDragEnd = (panel, draggedPanel) => {
     draggedPanel.DeleteAsync(0);
-    panel.RemoveClass('dragging_from');
-    panel.RemoveClass('trying_to_drop');
+    panel.RemoveClass('draggingFrom');
+    panel.RemoveClass('tryingToDrop');
     if (!draggedPanel.b_dragComplete) {
       {
         if (Entities.IsRealHero(draggedPanel.OwnerEntityIndex)) {
@@ -337,7 +337,7 @@ function InventoryItem(props) {
     if (draggedItem == null || draggedPanel == panel) {
       return true;
     }
-    panel.AddClass('trying_to_drop');
+    panel.AddClass('tryingToDrop');
     return true;
   };
   const OnDragLeave = (panel, draggedPanel) => {
@@ -345,7 +345,7 @@ function InventoryItem(props) {
     if (draggedItem == null || draggedPanel == panel) {
       return true;
     }
-    panel.RemoveClass('trying_to_drop');
+    panel.RemoveClass('tryingToDrop');
     return true;
   };
   const OnDragDrop = (panel, draggedPanel) => {
@@ -383,7 +383,7 @@ function InventoryItem(props) {
           return Abilities.GetAbilityName(props.ItemEntityIndex);
         }
       }, _el$);
-    libs.setProp(_el$, "className", `equipItem `);
+    libs.setProp(_el$, "className", `inventoryItem `);
     libs.setProp(_el$, "onDragStart", OnDragStart);
     libs.setProp(_el$, "onDragEnd", OnDragEnd);
     libs.setProp(_el$, "onDragEnter", OnDragEnter);

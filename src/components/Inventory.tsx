@@ -6,23 +6,24 @@ const rootStyle = css`
     flow-children: right;
     horizontal-align: center;
     vertical-align: bottom;
-    .equipItem {
+    .inventoryItem {
         width: 60px;
-        height: 60px;
+        height: 48px;
         margin: 0 2px 2px 1px;
         border: 2px solid #353525;
         DOTAItemImage {
             width: 60px;
-            height: 60px;
+            height: 48px;
             z-index: 0;
+
             tooltip-position: top;
         }
     }
-    .dragging_from {
+    .draggingFrom {
         border: 2px solid red;
     }
 
-    .trying_to_drop {
+    .tryingToDrop {
         border: 2px solid #5e6e31;
     }
 
@@ -86,7 +87,7 @@ function InventoryItem(props: ItemContainerProps) {
         dragCallbacks.displayPanel = displayPanel;
         dragCallbacks.offsetX = 30;
         dragCallbacks.offsetY = 22;
-        panel.AddClass('dragging_from');
+        panel.AddClass('draggingFrom');
         return true;
     };
 
@@ -96,8 +97,8 @@ function InventoryItem(props: ItemContainerProps) {
     const OnDragEnd = (panel: Panel, draggedPanel: Panel) => {
         //删除左上角产生的拖动副本
         draggedPanel.DeleteAsync(0);
-        panel.RemoveClass('dragging_from');
-        panel.RemoveClass('trying_to_drop');
+        panel.RemoveClass('draggingFrom');
+        panel.RemoveClass('tryingToDrop');
         if (!draggedPanel.b_dragComplete) {
             const target = 0;
             if (target > 0) {
@@ -132,7 +133,7 @@ function InventoryItem(props: ItemContainerProps) {
         if (draggedItem == null || draggedPanel == panel) {
             return true;
         }
-        panel.AddClass('trying_to_drop');
+        panel.AddClass('tryingToDrop');
         return true;
     };
 
@@ -141,7 +142,7 @@ function InventoryItem(props: ItemContainerProps) {
         if (draggedItem == null || draggedPanel == panel) {
             return true;
         }
-        panel.RemoveClass('trying_to_drop');
+        panel.RemoveClass('tryingToDrop');
         return true;
     };
 
@@ -180,10 +181,9 @@ function InventoryItem(props: ItemContainerProps) {
     if (props.ItemEntityIndex! < 0 && selected() == true) {
         setToggleSelected(false);
     }
-
     return (
         <Panel
-            className={`equipItem `}
+            className={`inventoryItem `}
             draggable={true}
             onDragStart={OnDragStart}
             onDragEnd={OnDragEnd}

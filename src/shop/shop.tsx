@@ -1,6 +1,7 @@
 import { render } from 'solid-panorama-runtime';
 import xml from 'solid-panorama-all-in-jsx/xml.macro';
 import css from 'solid-panorama-all-in-jsx/css.macro';
+import { CButton } from '../components/Button';
 
 xml(
     <root>
@@ -18,17 +19,18 @@ xml(
     </root>
 );
 
-
 const rootStyle = css`
-    flow-children: down;
-    width: 100%;
-    height: 100%;
+    flow-children: right;
+    horizontal-align: center;
+    vertical-align: bottom;
 `;
 
 function App() {
     return (
-        <Panel class={rootStyle} hittest={false}>
-     
+        <Panel class={rootStyle}>
+            <CButton text="Button A" small />
+            <CButton text="Button B" />
+            <CButton text="Button C" large />
         </Panel>
     );
 }
