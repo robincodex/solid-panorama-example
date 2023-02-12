@@ -311,9 +311,9 @@ function InventoryItem(props) {
     }
     let displayPanel = $.CreatePanel('DOTAItemImage', $.GetContextPanel(), 'dragImage');
     displayPanel.itemname = GetItemName();
-    displayPanel.ItemEntityIndex = props.ItemEntityIndex;
-    displayPanel.OwnerEntityIndex = props.UnitEntityIndex;
-    displayPanel.b_dragComplete = false;
+    displayPanel.SetAttributeInt('ItemEntityIndex', props.ItemEntityIndex);
+    displayPanel.SetAttributeInt('OwnerEntityIndex', props.UnitEntityIndex);
+    displayPanel.SetAttributeInt('b_dragComplete', 0);
     dragCallbacks.displayPanel = displayPanel;
     dragCallbacks.offsetX = 30;
     dragCallbacks.offsetY = 22;
@@ -324,10 +324,13 @@ function InventoryItem(props) {
     draggedPanel.DeleteAsync(0);
     panel.RemoveClass('draggingFrom');
     panel.RemoveClass('tryingToDrop');
-    if (!draggedPanel.b_dragComplete) {
+    let b_dragComplete = Boolean(draggedPanel.GetAttributeInt('b_dragComplete', 0));
+    let OwnerEntityIndex = draggedPanel.GetAttributeInt('OwnerEntityIndex', 0);
+    let ItemEntityIndex = draggedPanel.GetAttributeInt('ItemEntityIndex', 0);
+    if (!b_dragComplete) {
       {
-        if (Entities.IsRealHero(draggedPanel.OwnerEntityIndex)) {
-          Game.DropItemAtCursor(draggedPanel.OwnerEntityIndex, draggedPanel.ItemEntityIndex);
+        if (Entities.IsRealHero(OwnerEntityIndex)) {
+          Game.DropItemAtCursor(OwnerEntityIndex, ItemEntityIndex);
         }
       }
     }
@@ -349,10 +352,13 @@ function InventoryItem(props) {
     return true;
   };
   const OnDragDrop = (panel, draggedPanel) => {
-    let draggedItem = draggedPanel.ItemEntityIndex;
+    Boolean(draggedPanel.GetAttributeInt('b_dragComplete', 0));
+    let OwnerEntityIndex = draggedPanel.GetAttributeInt('OwnerEntityIndex', 0);
+    let ItemEntityIndex = draggedPanel.GetAttributeInt('ItemEntityIndex', 0);
+    let draggedItem = ItemEntityIndex;
     if (draggedItem == null) return true;
-    draggedPanel.b_dragComplete = true;
-    if (draggedPanel.OwnerEntityIndex == props.UnitEntityIndex) {
+    draggedPanel.SetAttributeInt('b_dragComplete', 1);
+    if (OwnerEntityIndex == props.UnitEntityIndex) {
       const swapOrder = {
         OrderType: dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_ITEM,
         TargetIndex: props.SlotIndex,
@@ -360,11 +366,11 @@ function InventoryItem(props) {
       };
       Game.PrepareUnitOrders(swapOrder);
     } else {
-      if (Entities.IsRealHero(draggedPanel.OwnerEntityIndex)) {
+      if (Entities.IsRealHero(OwnerEntityIndex)) {
         let order = {
           OrderType: dotaunitorder_t.DOTA_UNIT_ORDER_GIVE_ITEM,
           TargetIndex: props.UnitEntityIndex,
-          AbilityIndex: draggedPanel.ItemEntityIndex
+          AbilityIndex: ItemEntityIndex
         };
         Game.PrepareUnitOrders(order);
       }
@@ -392,28 +398,36 @@ function InventoryItem(props) {
     libs.setProp(_el$, "onmouseover", ShowItemTooltip);
     libs.setProp(_el$, "onmouseout", HideItemTooltip);
     libs.setProp(_el$, "onactivate", () => {
-      props.ItemEntityIndex > 0 ? setToggleSelected(!selected()) : setToggleSelected(false);
+      if (GameUI.IsAltDown()) {
+        Abilities.PingAbility(props.ItemEntityIndex);
+      } else {
+        Abilities.ExecuteAbility(props.ItemEntityIndex, Players.GetLocalPlayerPortraitUnit(), false);
+      }
     });
     libs.setProp(_el$, "ondblclick", () => {
-      setToggleSelected(false);
+      Abilities.CreateDoubleTapCastOrder(props.ItemEntityIndex, Players.GetLocalPlayerPortraitUnit());
     });
     libs.effect(_$p => libs.setProp(_el$2, "itemname", Abilities.GetAbilityName(props.ItemEntityIndex), _$p));
     return _el$;
   })();
 }
-const getItemList = () => {
+function getItemList() {
   let items = [];
   for (let slot = 0; slot < 9; ++slot) {
     items.push(Entities.GetItemInSlot(Players.GetLocalPlayerPortraitUnit(), slot));
   }
   return items;
-};
+}
 const Inventory = () => {
   const [itemList, setItemList] = libs.createSignal(getItemList());
-  let id = GameEvents.Subscribe('dota_inventory_changed', () => {
-    setItemList(getItemList());
+  libs.createEffect(() => {
+    const id = GameEvents.Subscribe('dota_inventory_changed', () => {
+      setItemList(getItemList());
+    });
+    return () => {
+      GameEvents.Unsubscribe(id);
+    };
   });
-  libs.onCleanup(() => GameEvents.Unsubscribe(id));
   const Update = () => {
     setItemList(getItemList());
   };
