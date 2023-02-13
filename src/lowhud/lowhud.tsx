@@ -1,14 +1,9 @@
-import {
-    createEffect,
-    createSignal,
-    onCleanup,
-    onMount,
-    ParentComponent
-} from 'solid-js';
+import { onMount } from 'solid-js';
 import { render } from 'solid-panorama-runtime';
 import xml from 'solid-panorama-all-in-jsx/xml.macro';
 import css from 'solid-panorama-all-in-jsx/css.macro';
 import { DotaAbilities } from '../components/Ability';
+import Inventory from '../components/Inventory';
 
 xml(
     <root>
@@ -48,6 +43,7 @@ function App() {
 
     return (
         <Panel ref={root} class={rootStyle}>
+            <Inventory />
             <DotaAbilities />
         </Panel>
     );

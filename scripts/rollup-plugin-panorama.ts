@@ -1,7 +1,5 @@
-import chalk from 'chalk';
-import { existsSync } from 'node:fs';
-import { readFile, writeFile } from 'node:fs/promises';
-import path, { basename, join } from 'node:path';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { Plugin } from 'rollup';
 
 const xmlFile = `<root>
@@ -13,7 +11,6 @@ const xmlFile = `<root>
     </Panel>
 </root>
 `;
-
 export default function compatiblePanorama(options?: {}): Plugin {
     const exportsPositionsearch = `'use strict';`;
     return {

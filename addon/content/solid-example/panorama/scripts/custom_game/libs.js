@@ -50,15 +50,15 @@ let Effects = null;
 let ExecCount = 0;
 function createRoot(fn, detachedOwner) {
   const listener = Listener,
-        owner = Owner,
-        unowned = fn.length === 0,
-        root = unowned ? UNOWNED : {
-    owned: null,
-    cleanups: null,
-    context: null,
-    owner: detachedOwner || owner
-  },
-        updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
+    owner = Owner,
+    unowned = fn.length === 0,
+    root = unowned ? UNOWNED : {
+      owned: null,
+      cleanups: null,
+      context: null,
+      owner: detachedOwner || owner
+    },
+    updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
   Owner = root;
   Listener = null;
   try {
@@ -181,8 +181,8 @@ function updateComputation(node) {
   if (!node.fn) return;
   cleanNode(node);
   const owner = Owner,
-        listener = Listener,
-        time = ExecCount;
+    listener = Listener,
+    time = ExecCount;
   Listener = Owner = node;
   runComputation(node, node.value, time);
   Listener = listener;
@@ -193,7 +193,13 @@ function runComputation(node, value, time) {
   try {
     nextValue = node.fn(value);
   } catch (err) {
-    if (node.pure) node.state = STALE;
+    if (node.pure) {
+      {
+        node.state = STALE;
+        node.owned && node.owned.forEach(cleanNode);
+        node.owned = null;
+      }
+    }
     handleError(err);
   }
   if (!node.updatedAt || node.updatedAt <= time) {
@@ -275,7 +281,7 @@ function runQueue(queue) {
 }
 function runUserEffects(queue) {
   let i,
-      userLength = 0;
+    userLength = 0;
   for (i = 0; i < queue.length; i++) {
     const e = queue[i];
     if (!e.user) runTop(e);else queue[userLength++] = e;
@@ -310,11 +316,11 @@ function cleanNode(node) {
   if (node.sources) {
     while (node.sources.length) {
       const source = node.sources.pop(),
-            index = node.sourceSlots.pop(),
-            obs = source.observers;
+        index = node.sourceSlots.pop(),
+        obs = source.observers;
       if (obs && obs.length) {
         const n = obs.pop(),
-              s = source.observerSlots.pop();
+          s = source.observerSlots.pop();
         if (index < obs.length) {
           n.sourceSlots[s] = index;
           obs[index] = n;
@@ -349,27 +355,27 @@ function dispose(d) {
 }
 function mapArray(list, mapFn, options = {}) {
   let items = [],
-      mapped = [],
-      disposers = [],
-      len = 0,
-      indexes = mapFn.length > 1 ? [] : null;
+    mapped = [],
+    disposers = [],
+    len = 0,
+    indexes = mapFn.length > 1 ? [] : null;
   onCleanup(() => dispose(disposers));
   return () => {
     let newItems = list() || [],
-        i,
-        j;
+      i,
+      j;
     newItems[$TRACK];
     return untrack(() => {
       let newLen = newItems.length,
-          newIndices,
-          newIndicesNext,
-          temp,
-          tempdisposers,
-          tempIndexes,
-          start,
-          end,
-          newEnd,
-          item;
+        newIndices,
+        newIndicesNext,
+        temp,
+        tempdisposers,
+        tempIndexes,
+        start,
+        end,
+        newEnd,
+        item;
       if (newLen === 0) {
         if (len !== 0) {
           dispose(disposers);
@@ -452,11 +458,11 @@ function mapArray(list, mapFn, options = {}) {
 }
 function indexArray(list, mapFn, options = {}) {
   let items = [],
-      mapped = [],
-      disposers = [],
-      signals = [],
-      len = 0,
-      i;
+    mapped = [],
+    disposers = [],
+    signals = [],
+    len = 0,
+    i;
   onCleanup(() => dispose(disposers));
   return () => {
     const newItems = list() || [];
@@ -1284,6 +1290,7 @@ exports.createElement = createElement;
 exports.createSignal = createSignal;
 exports.effect = effect;
 exports.insert = insert;
+exports.onCleanup = onCleanup;
 exports.onMount = onMount;
 exports.render = render;
 exports.setProp = setProp;

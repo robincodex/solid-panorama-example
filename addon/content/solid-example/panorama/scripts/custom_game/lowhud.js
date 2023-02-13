@@ -298,6 +298,169 @@ function DotaAbilities() {
   })();
 }
 
+const rootStyle$1 = "styled-225b96e1";
+function InventoryItem(props) {
+  const [selected, setToggleSelected] = libs.createSignal(false);
+  const GetItemName = () => Abilities.GetAbilityName(props.ItemEntityIndex);
+  const ShowItemTooltip = panel => {};
+  const HideItemTooltip = () => {};
+  const OnDragStart = (panel, dragCallbacks) => {
+    if (props.ItemEntityIndex < 0) return true;
+    if (selected()) {
+      setToggleSelected(false);
+    }
+    let displayPanel = $.CreatePanel('DOTAItemImage', $.GetContextPanel(), 'dragImage');
+    displayPanel.itemname = GetItemName();
+    displayPanel.SetAttributeInt('ItemEntityIndex', props.ItemEntityIndex);
+    displayPanel.SetAttributeInt('OwnerEntityIndex', props.UnitEntityIndex);
+    displayPanel.SetAttributeInt('b_dragComplete', 0);
+    dragCallbacks.displayPanel = displayPanel;
+    dragCallbacks.offsetX = 30;
+    dragCallbacks.offsetY = 22;
+    panel.AddClass('draggingFrom');
+    return true;
+  };
+  const OnDragEnd = (panel, draggedPanel) => {
+    draggedPanel.DeleteAsync(0);
+    panel.RemoveClass('draggingFrom');
+    panel.RemoveClass('tryingToDrop');
+    let b_dragComplete = Boolean(draggedPanel.GetAttributeInt('b_dragComplete', 0));
+    let OwnerEntityIndex = draggedPanel.GetAttributeInt('OwnerEntityIndex', 0);
+    let ItemEntityIndex = draggedPanel.GetAttributeInt('ItemEntityIndex', 0);
+    if (!b_dragComplete) {
+      {
+        if (Entities.IsRealHero(OwnerEntityIndex)) {
+          Game.DropItemAtCursor(OwnerEntityIndex, ItemEntityIndex);
+        }
+      }
+    }
+  };
+  const OnDragEnter = (panel, draggedPanel) => {
+    let draggedItem = draggedPanel.itemname;
+    if (draggedItem == null || draggedPanel == panel) {
+      return true;
+    }
+    panel.AddClass('tryingToDrop');
+    return true;
+  };
+  const OnDragLeave = (panel, draggedPanel) => {
+    let draggedItem = draggedPanel.itemname;
+    if (draggedItem == null || draggedPanel == panel) {
+      return true;
+    }
+    panel.RemoveClass('tryingToDrop');
+    return true;
+  };
+  const OnDragDrop = (panel, draggedPanel) => {
+    Boolean(draggedPanel.GetAttributeInt('b_dragComplete', 0));
+    let OwnerEntityIndex = draggedPanel.GetAttributeInt('OwnerEntityIndex', 0);
+    let ItemEntityIndex = draggedPanel.GetAttributeInt('ItemEntityIndex', 0);
+    let draggedItem = ItemEntityIndex;
+    if (draggedItem == null) return true;
+    draggedPanel.SetAttributeInt('b_dragComplete', 1);
+    if (OwnerEntityIndex == props.UnitEntityIndex) {
+      const swapOrder = {
+        OrderType: dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_ITEM,
+        TargetIndex: props.SlotIndex,
+        AbilityIndex: draggedItem
+      };
+      Game.PrepareUnitOrders(swapOrder);
+    } else {
+      if (Entities.IsRealHero(OwnerEntityIndex)) {
+        let order = {
+          OrderType: dotaunitorder_t.DOTA_UNIT_ORDER_GIVE_ITEM,
+          TargetIndex: props.UnitEntityIndex,
+          AbilityIndex: ItemEntityIndex
+        };
+        Game.PrepareUnitOrders(order);
+      }
+    }
+    return true;
+  };
+  if (props.ItemEntityIndex < 0 && selected() == true) {
+    setToggleSelected(false);
+  }
+  return (() => {
+    const _el$ = libs.createElement("Panel", {
+        draggable: true
+      }, null),
+      _el$2 = libs.createElement("DOTAItemImage", {
+        get itemname() {
+          return Abilities.GetAbilityName(props.ItemEntityIndex);
+        }
+      }, _el$);
+    libs.setProp(_el$, "className", `inventoryItem `);
+    libs.setProp(_el$, "onDragStart", OnDragStart);
+    libs.setProp(_el$, "onDragEnd", OnDragEnd);
+    libs.setProp(_el$, "onDragEnter", OnDragEnter);
+    libs.setProp(_el$, "onDragLeave", OnDragLeave);
+    libs.setProp(_el$, "onDragDrop", OnDragDrop);
+    libs.setProp(_el$, "onmouseover", ShowItemTooltip);
+    libs.setProp(_el$, "onmouseout", HideItemTooltip);
+    libs.setProp(_el$, "onactivate", () => {
+      if (GameUI.IsAltDown()) {
+        Abilities.PingAbility(props.ItemEntityIndex);
+      } else {
+        Abilities.ExecuteAbility(props.ItemEntityIndex, Players.GetLocalPlayerPortraitUnit(), false);
+      }
+    });
+    libs.setProp(_el$, "ondblclick", () => {
+      Abilities.CreateDoubleTapCastOrder(props.ItemEntityIndex, Players.GetLocalPlayerPortraitUnit());
+    });
+    libs.effect(_$p => libs.setProp(_el$2, "itemname", Abilities.GetAbilityName(props.ItemEntityIndex), _$p));
+    return _el$;
+  })();
+}
+function getItemList() {
+  let items = [];
+  for (let slot = 0; slot < 9; ++slot) {
+    items.push(Entities.GetItemInSlot(Players.GetLocalPlayerPortraitUnit(), slot));
+  }
+  return items;
+}
+const Inventory = () => {
+  const [itemList, setItemList] = libs.createSignal(getItemList());
+  libs.createEffect(() => {
+    const id = GameEvents.Subscribe('dota_inventory_changed', () => {
+      setItemList(getItemList());
+    });
+    return () => {
+      GameEvents.Unsubscribe(id);
+    };
+  });
+  const Update = () => {
+    setItemList(getItemList());
+  };
+  const timer = setInterval(Update, Game.GetGameFrameTime());
+  libs.onCleanup(() => clearInterval(timer));
+  return (() => {
+    const _el$3 = libs.createElement("Panel", {
+      "class": rootStyle$1,
+      hittest: false
+    }, null);
+    libs.setProp(_el$3, "class", rootStyle$1);
+    libs.insert(_el$3, libs.createComponent(libs.Index, {
+      get each() {
+        return [...Array(9).keys()];
+      },
+      children: slot => libs.createComponent(InventoryItem, {
+        selectItem: true,
+        IsInventory: true,
+        get SlotIndex() {
+          return slot();
+        },
+        get ItemEntityIndex() {
+          return itemList()[slot()];
+        },
+        get UnitEntityIndex() {
+          return Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+        }
+      })
+    }));
+    return _el$3;
+  })();
+};
+
 const rootStyle = "styled-1ed2f423";
 function App() {
   let root;
@@ -311,7 +474,8 @@ function App() {
     const _ref$ = root;
     typeof _ref$ === "function" ? libs.use(_ref$, _el$) : root = _el$;
     libs.setProp(_el$, "class", rootStyle);
-    libs.insert(_el$, libs.createComponent(DotaAbilities, {}));
+    libs.insert(_el$, libs.createComponent(Inventory, {}), null);
+    libs.insert(_el$, libs.createComponent(DotaAbilities, {}), null);
     return _el$;
   })();
 }
