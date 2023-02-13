@@ -57,7 +57,7 @@ export default function GetRollupWatchOptions(rootPath: string) {
                 extensions: ['.js', '.ts', '.tsx'],
                 babelHelpers: 'bundled',
                 presets: [
-                    ['@babel/preset-env', { targets: { node: '8.2' } }],
+                    ['@babel/preset-env', { targets: { node: '18.12' } }],
                     '@babel/preset-typescript',
                     [
                         'babel-preset-solid-panorama',

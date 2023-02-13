@@ -4,10 +4,5 @@
 !function(){"use strict";const e=new Map;let l=-1e5;const t=(e,l=0,...t)=>$.Schedule(l/1e3,(()=>e(...t)));function c(t,c=0,...a){c/=1e3,l-=1;const s=l,n=()=>{e.set(s,$.Schedule(c,n)),t(...a)};return e.set(s,$.Schedule(c,n)),s}const a=(e,...l)=>$.Schedule(0,(()=>e(...l)));function s(l){if("number"==typeof l)try{l<-1e5?e.has(l)&&($.CancelScheduled(e.get(l)),e.delete(l)):$.CancelScheduled(l)}catch(e){}}globalThis.setInterval=c,globalThis.clearInterval=s,globalThis.setTimeout=t,globalThis.clearTimeout=s,globalThis.setImmediate=a,globalThis.clearImmediate=s}();
 
 
-var polyfillModule = (function () {
-    return {
-        default: global => {
-            // global.x = 1
-        }
-    };
+!(function () {
 })();

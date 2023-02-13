@@ -50,13 +50,6 @@ interface ItemContainerProps {
     OnDblclick?: (itemEntityIndex: number) => void;
 }
 
-export interface DragCallbacks {
-    removePositionBeforeDrop: boolean;
-    offsetY: number;
-    offsetX: number;
-    displayPanel: Panel;
-}
-
 /**
  * 单个物品
  */

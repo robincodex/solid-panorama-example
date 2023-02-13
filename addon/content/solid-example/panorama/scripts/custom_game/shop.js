@@ -2,14 +2,12 @@
 
 var libs = require('./libs.js');
 
-const _excluded = ["text", "icon", "color"];
-function CButton(_ref) {
-  let {
-      text,
-      icon,
-      color
-    } = _ref,
-    props = libs._objectWithoutProperties(_ref, _excluded);
+function CButton({
+  text,
+  icon,
+  color,
+  ...props
+}) {
   return (() => {
     const _el$ = libs.createElement("Button", {
         "class": "btnStyle"

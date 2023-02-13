@@ -3,9 +3,7 @@
 var libs = require('./libs.js');
 
 class UpdateList {
-  constructor() {
-    libs._defineProperty(this, "_indexes", []);
-  }
+  _indexes = [];
   next(index) {
     return false;
   }
@@ -201,10 +199,7 @@ function Ability(props) {
 }
 const DotaAbilitiesStyle = "styled-9a15cb87";
 class AbilityList extends UpdateList {
-  constructor(...args) {
-    super(...args);
-    libs._defineProperty(this, "_abilities", []);
-  }
+  _abilities = [];
   next(index) {
     return !!this._abilities[index];
   }
@@ -418,7 +413,7 @@ function getItemList() {
   }
   return items;
 }
-const Inventory = () => {
+function Inventory() {
   const [itemList, setItemList] = libs.createSignal(getItemList());
   libs.createEffect(() => {
     const id = GameEvents.Subscribe('dota_inventory_changed', () => {
@@ -459,7 +454,7 @@ const Inventory = () => {
     }));
     return _el$3;
   })();
-};
+}
 
 const rootStyle = "styled-1ed2f423";
 function App() {

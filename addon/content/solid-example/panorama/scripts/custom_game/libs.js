@@ -50,15 +50,15 @@ let Effects = null;
 let ExecCount = 0;
 function createRoot(fn, detachedOwner) {
   const listener = Listener,
-    owner = Owner,
-    unowned = fn.length === 0,
-    root = unowned ? UNOWNED : {
-      owned: null,
-      cleanups: null,
-      context: null,
-      owner: detachedOwner || owner
-    },
-    updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
+        owner = Owner,
+        unowned = fn.length === 0,
+        root = unowned ? UNOWNED : {
+    owned: null,
+    cleanups: null,
+    context: null,
+    owner: detachedOwner || owner
+  },
+        updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
   Owner = root;
   Listener = null;
   try {
@@ -181,8 +181,8 @@ function updateComputation(node) {
   if (!node.fn) return;
   cleanNode(node);
   const owner = Owner,
-    listener = Listener,
-    time = ExecCount;
+        listener = Listener,
+        time = ExecCount;
   Listener = Owner = node;
   runComputation(node, node.value, time);
   Listener = listener;
@@ -193,13 +193,7 @@ function runComputation(node, value, time) {
   try {
     nextValue = node.fn(value);
   } catch (err) {
-    if (node.pure) {
-      {
-        node.state = STALE;
-        node.owned && node.owned.forEach(cleanNode);
-        node.owned = null;
-      }
-    }
+    if (node.pure) node.state = STALE;
     handleError(err);
   }
   if (!node.updatedAt || node.updatedAt <= time) {
@@ -281,7 +275,7 @@ function runQueue(queue) {
 }
 function runUserEffects(queue) {
   let i,
-    userLength = 0;
+      userLength = 0;
   for (i = 0; i < queue.length; i++) {
     const e = queue[i];
     if (!e.user) runTop(e);else queue[userLength++] = e;
@@ -316,11 +310,11 @@ function cleanNode(node) {
   if (node.sources) {
     while (node.sources.length) {
       const source = node.sources.pop(),
-        index = node.sourceSlots.pop(),
-        obs = source.observers;
+            index = node.sourceSlots.pop(),
+            obs = source.observers;
       if (obs && obs.length) {
         const n = obs.pop(),
-          s = source.observerSlots.pop();
+              s = source.observerSlots.pop();
         if (index < obs.length) {
           n.sourceSlots[s] = index;
           obs[index] = n;
@@ -355,27 +349,27 @@ function dispose(d) {
 }
 function mapArray(list, mapFn, options = {}) {
   let items = [],
-    mapped = [],
-    disposers = [],
-    len = 0,
-    indexes = mapFn.length > 1 ? [] : null;
+      mapped = [],
+      disposers = [],
+      len = 0,
+      indexes = mapFn.length > 1 ? [] : null;
   onCleanup(() => dispose(disposers));
   return () => {
     let newItems = list() || [],
-      i,
-      j;
+        i,
+        j;
     newItems[$TRACK];
     return untrack(() => {
       let newLen = newItems.length,
-        newIndices,
-        newIndicesNext,
-        temp,
-        tempdisposers,
-        tempIndexes,
-        start,
-        end,
-        newEnd,
-        item;
+          newIndices,
+          newIndicesNext,
+          temp,
+          tempdisposers,
+          tempIndexes,
+          start,
+          end,
+          newEnd,
+          item;
       if (newLen === 0) {
         if (len !== 0) {
           dispose(disposers);
@@ -458,11 +452,11 @@ function mapArray(list, mapFn, options = {}) {
 }
 function indexArray(list, mapFn, options = {}) {
   let items = [],
-    mapped = [],
-    disposers = [],
-    signals = [],
-    len = 0,
-    i;
+      mapped = [],
+      disposers = [],
+      signals = [],
+      len = 0,
+      i;
   onCleanup(() => dispose(disposers));
   return () => {
     const newItems = list() || [];
@@ -1223,66 +1217,8 @@ function setData(node, key, v) {
     node.Data()[key] = v;
 }
 
-function _defineProperty(obj, key, value) {
-  key = _toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-  return target;
-}
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = _objectWithoutPropertiesLoose(source, excluded);
-  var key, i;
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-function _toPrimitive(input, hint) {
-  if (typeof input !== "object" || input === null) return input;
-  var prim = input[Symbol.toPrimitive];
-  if (prim !== undefined) {
-    var res = prim.call(input, hint || "default");
-    if (typeof res !== "object") return res;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return (hint === "string" ? String : Number)(input);
-}
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return typeof key === "symbol" ? key : String(key);
-}
-
 exports.For = For;
 exports.Index = Index;
-exports._defineProperty = _defineProperty;
-exports._objectWithoutProperties = _objectWithoutProperties;
 exports.batch = batch;
 exports.createComponent = createComponent;
 exports.createEffect = createEffect;

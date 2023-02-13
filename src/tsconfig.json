@@ -11,14 +11,11 @@
         "moduleResolution": "Node",
         "esModuleInterop": true,
         "strict": true,
-        "target": "ES2017",
+        "target": "ESNext",
         "types": ["@moddota/panorama-types"],
-        "lib": ["ES2017"],
+        "lib": ["ESNext"],
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
-        "paths": {
-            "@common/*": ["./common/*"]
-        },
         "plugins": [
             {
                 "name": "typescript-styled-plugin",
@@ -29,7 +26,8 @@
                         "wash-color",
                         "saturation",
                         "brightness",
-                        "contrast"
+                        "contrast",
+                        "tooltip-position"
                     ]
                 }
             }
